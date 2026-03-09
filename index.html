@@ -4,37 +4,2041 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Distribuidora Vuelo | Café de especialidad</title>
-  <meta name="description" content="Distribuidora Vuelo - Comercializadora de café de especialidad. Arma tu pedido y envíalo por WhatsApp." />
+  <meta
+    name="description"
+    content="Distribuidora Vuelo - Comercializadora de café de especialidad. Arma tu carrito y envía tu pedido por WhatsApp."
+  />
+
   <style>
     :root{
-      --bg:#f6f1e8;
-      --card:#ffffff;
-      --text:#161616;
-      --muted:#5f5f5f;
-      --line:#e6ded1;
-      --accent:#111111;
-      --gold:#d6a64a;
-      --green:#1e8f52;
-      --shadow:0 10px 30px rgba(0,0,0,.08);
-      --radius:18px;
+      --bg:#f7f2e8;
+      --white:#ffffff;
+      --black:#0f172a;
+      --muted:#64748b;
+      --line:#e5e7eb;
+      --shadow:0 20px 60px -20px rgba(15,23,42,.35);
+      --shadow-soft:0 10px 30px rgba(15,23,42,.08);
+      --radius-xl:36px;
+      --radius-lg:28px;
+      --radius-md:22px;
+      --radius-sm:16px;
+      --amber:#f6c453;
+      --green:#16a34a;
+      --slate-50:#f8fafc;
+      --slate-100:#f1f5f9;
+      --slate-200:#e2e8f0;
+      --slate-300:#cbd5e1;
+      --slate-400:#94a3b8;
+      --slate-500:#64748b;
+      --slate-600:#475569;
+      --slate-700:#334155;
+      --slate-800:#1e293b;
+      --slate-900:#0f172a;
     }
 
-    *{box-sizing:border-box}
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body{
       margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      line-height:1.4;
+      background:
+        radial-gradient(circle at top right, rgba(245,158,11,.16), transparent 26%),
+        radial-gradient(circle at left, rgba(14,165,233,.12), transparent 20%),
+        var(--bg);
+      color:var(--slate-900);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    .wrap{
-      width:min(1100px, 92%);
+    a { color: inherit; text-decoration: none; }
+    img { display:block; max-width:100%; }
+    button, select, input, textarea { font: inherit; }
+
+    .container{
+      width:min(1280px, calc(100% - 32px));
       margin:0 auto;
     }
 
-    .topbar{
-      background:#111;
+    .hidden{ display:none !important; }
+
+    .site-header{
+      position:sticky;
+      top:0;
+      z-index:30;
+      background:rgba(247,242,232,.88);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(226,232,240,.9);
+    }
+
+    .site-header-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding:14px 0;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+
+    .brand img{
+      width:48px;
+      height:48px;
+      border-radius:18px;
+      object-fit:cover;
+      background:#fff;
+      border:1px solid rgba(15,23,42,.08);
+    }
+
+    .brand-eyebrow{
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:var(--slate-500);
+      line-height:1.2;
+    }
+
+    .brand-title{
+      font-size:16px;
+      font-weight:900;
+      line-height:1.2;
+      white-space:nowrap;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:20px;
+    }
+
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:22px;
+    }
+
+    .nav-links a{
+      font-size:14px;
+      font-weight:700;
+      color:var(--slate-700);
+    }
+
+    .nav-links a:hover{ color:var(--slate-900); }
+
+    .pill-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:10px 16px;
+      border-radius:999px;
+      border:1px solid var(--slate-300);
+      background:#fff;
+      font-size:14px;
+      font-weight:700;
+      color:var(--slate-700);
+      transition:.18s ease;
+    }
+
+    .pill-link:hover{ border-color:var(--slate-900); color:var(--slate-900); }
+
+    .cart-button{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:14px 18px;
+      border:none;
+      border-radius:999px;
+      background:var(--slate-900);
+      color:#fff;
+      font-size:14px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+
+    .cart-button:hover{ transform:translateY(-1px); }
+
+    .cart-badge{
+      min-width:24px;
+      height:24px;
+      padding:0 8px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      background:var(--amber);
+      color:var(--slate-900);
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:40px;
+      align-items:center;
+      padding:56px 0 26px;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      width:fit-content;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid var(--slate-300);
+      background:rgba(255,255,255,.82);
+      color:var(--slate-700);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+
+    h1{
+      margin:22px 0 0;
+      max-width:860px;
+      font-size:clamp(40px, 6vw, 72px);
+      line-height:.95;
+      font-weight:900;
+      color:var(--slate-950, #020617);
+    }
+
+    .hero p{
+      max-width:760px;
+      margin:20px 0 0;
+      font-size:20px;
+      line-height:1.8;
+      color:var(--slate-700);
+    }
+
+    .hero-actions{
+      margin-top:30px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      border:none;
+      cursor:pointer;
+      text-decoration:none;
+      border-radius:22px;
+      padding:17px 22px;
+      font-size:14px;
+      font-weight:900;
+      transition:.18s ease;
+    }
+
+    .btn:hover{ transform:translateY(-1px); }
+
+    .btn-dark{
+      background:var(--slate-900);
+      color:#fff;
+    }
+
+    .btn-light{
+      background:transparent;
+      color:var(--slate-900);
+      border:1px solid var(--slate-300);
+    }
+
+    .hero-badges{
+      margin-top:26px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    .mini-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border-radius:999px;
+      background:#fff;
+      padding:10px 14px;
+      box-shadow:var(--shadow-soft);
+      font-size:14px;
+      color:var(--slate-600);
+    }
+
+    .dot{
+      width:9px;
+      height:9px;
+      border-radius:999px;
+      background:#16a34a;
+      flex:0 0 auto;
+    }
+
+    .hero-visual{
+      position:relative;
+    }
+
+    .visual-card{
+      overflow:hidden;
+      border-radius:36px;
+      border:1px solid rgba(15,23,42,.1);
+      background:var(--slate-900);
+      box-shadow:0 30px 80px -25px rgba(15,23,42,.55);
+    }
+
+    .visual-inner{
+      padding:24px;
+      min-height:100%;
+      background:
+        radial-gradient(circle at top right, rgba(246,196,83,.18), transparent 30%),
+        linear-gradient(160deg, #0f172a 0%, #111827 50%, #020617 100%);
+      color:#fff;
+    }
+
+    .visual-logo{
+      width:88px;
+      height:88px;
+      margin:0 auto 16px;
+      border-radius:22px;
+      object-fit:cover;
+      background:#fff;
+      padding:8px;
+    }
+
+    .visual-title{
+      text-align:center;
+      font-size:30px;
+      line-height:1.08;
+      font-weight:900;
+      margin:0 0 10px;
+    }
+
+    .visual-copy{
+      max-width:520px;
+      margin:0 auto;
+      text-align:center;
+      color:rgba(255,255,255,.82);
+      font-size:15px;
+      line-height:1.7;
+    }
+
+    .visual-grid{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:12px;
+    }
+
+    .visual-tile{
+      overflow:hidden;
+      border-radius:22px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      aspect-ratio: 4 / 4.9;
+    }
+
+    .visual-tile img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .hero-stats{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:14px;
+    }
+
+    .stat{
+      border-radius:28px;
+      background:#fff;
+      box-shadow:var(--shadow-soft);
+      padding:18px 20px;
+    }
+
+    .stat-label{
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--slate-500);
+    }
+
+    .stat-value{
+      margin-top:6px;
+      font-size:28px;
+      font-weight:900;
+      color:var(--slate-900);
+    }
+
+    .benefits{
+      padding:12px 0 0;
+    }
+
+    .benefits-grid{
+      display:grid;
+      grid-template-columns:2fr 1fr 1fr;
+      gap:16px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:32px;
+      box-shadow:var(--shadow-soft);
+      border:1px solid rgba(15,23,42,.06);
+    }
+
+    .card-dark{
+      background:var(--slate-900);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .card-body{
+      padding:28px;
+    }
+
+    .card-title{
+      margin:16px 0 0;
+      font-size:36px;
+      line-height:1.04;
+      font-weight:900;
+    }
+
+    .card-copy{
+      margin:14px 0 0;
+      color:var(--slate-300);
+      line-height:1.8;
+      font-size:16px;
+      max-width:760px;
+    }
+
+    .feature-title{
+      margin:16px 0 0;
+      font-size:24px;
+      line-height:1.15;
+      font-weight:900;
+      color:var(--slate-900);
+    }
+
+    .feature-copy{
+      margin:12px 0 0;
+      font-size:15px;
+      line-height:1.8;
+      color:var(--slate-600);
+    }
+
+    .section{
+      padding:56px 0 0;
+    }
+
+    .section-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .section-eyebrow{
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--slate-500);
+    }
+
+    .section-title{
+      margin:8px 0 0;
+      font-size:48px;
+      line-height:1;
+      font-weight:900;
+    }
+
+    .section-copy{
+      margin:14px 0 0;
+      max-width:700px;
+      color:var(--slate-600);
+      font-size:17px;
+      line-height:1.8;
+    }
+
+    .floating-note{
+      padding:14px 18px;
+      border-radius:24px;
+      border:1px solid var(--slate-200);
+      background:#fff;
+      box-shadow:var(--shadow-soft);
+      font-size:14px;
+      color:var(--slate-700);
+    }
+
+    .products-grid{
+      margin-top:30px;
+      display:grid;
+      gap:24px;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+    }
+
+    .product-card{
+      overflow:hidden;
+      border-radius:28px;
+      border:1px solid rgba(15,23,42,.1);
+      background:#fff;
+      box-shadow:var(--shadow);
+    }
+
+    .product-media{
+      position:relative;
+      height:280px;
+      background:#ddd;
+    }
+
+    .product-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .product-badge{
+      position:absolute;
+      top:16px;
+      left:16px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#000;
+      color:#fff;
+      font-size:11px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+    }
+
+    .product-body{
+      padding:20px;
+    }
+
+    .product-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .product-name{
+      font-size:32px;
+      line-height:1;
+      font-weight:900;
+      margin:0;
+    }
+
+    .product-notes{
+      margin:10px 0 0;
+      font-size:14px;
+      color:var(--slate-600);
+    }
+
+    .price-chip{
+      flex:0 0 auto;
+      min-width:120px;
+      border-radius:18px;
+      padding:10px 12px;
+      text-align:right;
+      color:#000;
+    }
+
+    .price-chip-label{
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      opacity:.72;
+    }
+
+    .price-chip-value{
+      margin-top:2px;
+      font-size:18px;
+      font-weight:900;
+    }
+
+    .meta-grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:10px;
+    }
+
+    .meta-box{
+      border-radius:18px;
+      background:var(--slate-50);
+      padding:14px;
+      min-height:100%;
+    }
+
+    .meta-label{
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--slate-500);
+    }
+
+    .meta-value{
+      margin-top:6px;
+      color:var(--slate-800);
+      font-size:14px;
+      line-height:1.35;
+    }
+
+    .variety-box{
+      margin-top:14px;
+      padding:16px;
+      border-radius:18px;
+      border:1px solid var(--slate-200);
+    }
+
+    .field-grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:1fr 160px;
+      gap:12px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .field span{
+      font-size:14px;
+      font-weight:700;
+      color:var(--slate-700);
+    }
+
+    .select,
+    .input,
+    .textarea{
+      width:100%;
+      border-radius:18px;
+      border:1px solid var(--slate-200);
+      background:#fff;
+      color:var(--slate-900);
+      padding:14px 16px;
+      outline:none;
+    }
+
+    .select:focus,
+    .input:focus,
+    .textarea:focus{
+      border-color:var(--slate-900);
+    }
+
+    .subtotal-box{
+      margin-top:16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      border-radius:18px;
+      background:var(--slate-900);
+      color:#fff;
+      padding:16px;
+    }
+
+    .subtotal-label{
+      font-size:11px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--slate-400);
+    }
+
+    .subtotal-value{
+      margin-top:2px;
+      font-size:34px;
+      line-height:1;
+      font-weight:900;
+    }
+
+    .add-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      border:none;
+      cursor:pointer;
+      border-radius:18px;
+      background:#fff;
+      color:var(--slate-900);
+      padding:14px 16px;
+      font-size:14px;
+      font-weight:900;
+      transition:.18s ease;
+    }
+
+    .add-btn:hover{
+      transform:scale(1.02);
+    }
+
+    .steps-wrap{
+      padding:26px 0 0;
+      display:grid;
+      gap:24px;
+      grid-template-columns:1fr .9fr;
+    }
+
+    .steps-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:16px;
+      margin-top:24px;
+    }
+
+    .step-box{
+      border-radius:28px;
+      background:var(--slate-50);
+      padding:20px;
+    }
+
+    .step-eyebrow{
+      font-size:11px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--slate-500);
+      font-weight:900;
+    }
+
+    .step-title{
+      margin-top:10px;
+      font-size:22px;
+      line-height:1.15;
+      font-weight:900;
+    }
+
+    .step-copy{
+      margin-top:10px;
+      font-size:15px;
+      line-height:1.75;
+      color:var(--slate-600);
+    }
+
+    .promo-panel .feature-copy{ color:var(--slate-300); }
+
+    .promo-list{
+      margin:22px 0 0;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.06);
+      padding:18px 20px;
+    }
+
+    .promo-list div{
+      margin-top:10px;
+      color:#e2e8f0;
+      font-size:15px;
+      line-height:1.75;
+    }
+
+    .contact-grid{
+      padding:56px 0 70px;
+      display:grid;
+      gap:24px;
+      grid-template-columns:.95fr 1.05fr;
+    }
+
+    .contact-stack{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      margin-top:24px;
+    }
+
+    .contact-link{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      padding:18px;
+      border:1px solid var(--slate-200);
+      border-radius:24px;
+      transition:.18s ease;
+    }
+
+    .contact-link:hover{ border-color:var(--slate-900); }
+
+    .icon-box{
+      width:48px;
+      height:48px;
+      border-radius:16px;
+      background:var(--slate-900);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:20px;
+      flex:0 0 auto;
+    }
+
+    .contact-small{
+      font-size:14px;
+      color:var(--slate-500);
+    }
+
+    .contact-strong{
+      margin-top:2px;
+      font-size:18px;
+      font-weight:900;
+      color:var(--slate-900);
+      line-height:1.3;
+    }
+
+    .summary-grid{
+      margin-top:24px;
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:16px;
+    }
+
+    .summary-box{
+      padding:20px;
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.06);
+    }
+
+    .summary-box-title{
+      font-size:15px;
+      font-weight:700;
+    }
+
+    .summary-box-value{
+      margin-top:10px;
+      font-size:34px;
+      line-height:1;
+      font-weight:900;
+    }
+
+    .summary-box-copy{
+      margin-top:8px;
+      color:var(--slate-400);
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .summary-footer{
+      margin-top:22px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,255,255,.1);
+      color:var(--slate-400);
+      font-size:14px;
+    }
+
+    .summary-footer strong{ color:#fff; }
+
+    .overlay{
+      position:fixed;
+      inset:0;
+      z-index:40;
+      background:rgba(2,6,23,.5);
+      backdrop-filter: blur(6px);
+      opacity:0;
+      pointer-events:none;
+      transition:.26s ease;
+    }
+
+    .overlay.show{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .cart-drawer{
+      position:fixed;
+      right:0;
+      top:0;
+      width:min(100%, 560px);
+      height:100vh;
+      z-index:50;
+      transform:translateX(100%);
+      transition:.3s ease;
+      background:var(--slate-950, #020617);
+      color:#fff;
+      box-shadow:-10px 0 40px rgba(0,0,0,.25);
+      border-left:1px solid rgba(255,255,255,.08);
+      overflow:auto;
+    }
+
+    .cart-drawer.show{ transform:translateX(0); }
+
+    .cart-header{
+      position:sticky;
+      top:0;
+      z-index:2;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding:18px 20px;
+      background:rgba(2,6,23,.88);
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .cart-title-mini{
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      color:var(--slate-400);
+    }
+
+    .cart-title{
+      margin-top:4px;
+      font-size:34px;
+      line-height:1;
+      font-weight:900;
+    }
+
+    .close-btn{
+      width:42px;
+      height:42px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.12);
+      background:transparent;
+      color:#fff;
+      cursor:pointer;
+      font-size:20px;
+    }
+
+    .cart-body{
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+
+    .promo-inline{
+      padding:16px;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.05);
+    }
+
+    .promo-inline strong{
+      display:block;
+      font-size:16px;
+    }
+
+    .promo-inline p{
+      margin:8px 0 0;
+      color:var(--slate-300);
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .cart-empty{
+      padding:46px 20px;
+      border-radius:28px;
+      border:1px dashed rgba(255,255,255,.12);
+      text-align:center;
+      color:var(--slate-400);
+    }
+
+    .cart-items{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .cart-item{
+      padding:16px;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.05);
+    }
+
+    .cart-item-top{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:flex-start;
+    }
+
+    .cart-item-name{
+      font-size:22px;
+      font-weight:900;
+    }
+
+    .cart-item-small{
+      margin-top:4px;
+      color:var(--slate-300);
+      font-size:14px;
+    }
+
+    .tiny-btn{
+      border:1px solid rgba(255,255,255,.12);
+      background:transparent;
+      color:var(--slate-300);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .tiny-btn:hover{ color:#fff; }
+
+    .cart-item-bottom{
+      margin-top:16px;
+      display:flex;
+      gap:14px;
+      justify-content:space-between;
+      align-items:flex-end;
+    }
+
+    .cart-item-bottom .field span{
+      font-size:11px;
+      color:var(--slate-400);
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-weight:900;
+    }
+
+    .select-dark,
+    .input-dark,
+    .textarea-dark{
+      width:100%;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.1);
+      background:#0f172a;
+      color:#fff;
+      padding:14px 16px;
+      outline:none;
+    }
+
+    .select-dark:focus,
+    .input-dark:focus,
+    .textarea-dark:focus{
+      border-color:rgba(255,255,255,.35);
+    }
+
+    .textarea-dark{
+      min-height:120px;
+      resize:vertical;
+    }
+
+    .subtotal-right{
+      text-align:right;
+    }
+
+    .subtotal-right .subtotal-label{
+      color:var(--slate-400);
+    }
+
+    .subtotal-right .subtotal-value{
+      font-size:26px;
+    }
+
+    .customer-box{
+      padding:20px;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.05);
+    }
+
+    .customer-box h4{
+      margin:0;
+      font-size:22px;
+      font-weight:900;
+    }
+
+    .customer-fields{
+      margin-top:16px;
+      display:grid;
+      gap:12px;
+    }
+
+    .total-box{
+      padding:20px;
+      border-radius:28px;
+      background:#fff;
+      color:var(--slate-900);
+    }
+
+    .total-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:14px;
+    }
+
+    .total-label{
+      font-size:11px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      color:var(--slate-500);
+    }
+
+    .total-value{
+      margin-top:4px;
+      font-size:42px;
+      line-height:1;
+      font-weight:900;
+    }
+
+    .total-copy{
+      text-align:right;
+      color:var(--slate-500);
+      font-size:14px;
+      line-height:1.5;
+      max-width:200px;
+    }
+
+    .wa-link{
+      margin-top:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      width:100%;
+      padding:18px;
+      border-radius:18px;
+      font-size:14px;
+      font-weight:900;
+      transition:.18s ease;
+      background:var(--slate-900);
+      color:#fff;
+      text-decoration:none;
+    }
+
+    .wa-link.disabled{
+      background:var(--slate-200);
+      color:var(--slate-500);
+      pointer-events:none;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:60;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      background:rgba(2,6,23,.7);
+      backdrop-filter: blur(6px);
+    }
+
+    .modal.show{ display:flex; }
+
+    .modal-card{
+      position:relative;
+      width:min(100%, 560px);
+      overflow:hidden;
+      border-radius:32px;
+      background:#fff;
+      box-shadow:0 40px 90px rgba(0,0,0,.25);
+    }
+
+    .modal-close{
+      position:absolute;
+      right:16px;
+      top:16px;
+      width:40px;
+      height:40px;
+      border:none;
+      border-radius:999px;
+      background:var(--slate-900);
+      color:#fff;
+      font-size:18px;
+      cursor:pointer;
+      z-index:2;
+    }
+
+    .modal-top{
+      background:var(--slate-900);
+      color:#fff;
+      padding:26px 24px;
+    }
+
+    .modal-tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border-radius:999px;
+      background:rgba(255,255,255,.1);
+      color:#fde68a;
+      padding:8px 12px;
+      font-size:12px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+    }
+
+    .modal-title{
+      margin:16px 0 0;
+      font-size:40px;
+      line-height:1.05;
+      font-weight:900;
+    }
+
+    .modal-copy{
+      margin:12px 0 0;
+      color:var(--slate-300);
+      font-size:16px;
+      line-height:1.7;
+    }
+
+    .modal-bottom{
+      padding:24px;
+    }
+
+    .modal-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .modal-box{
+      padding:16px;
+      border-radius:18px;
+      background:#f8fafc;
+    }
+
+    .modal-box:nth-child(1){
+      background:#fffbeb;
+    }
+
+    .modal-box strong{
+      display:block;
+      font-size:14px;
+      font-weight:900;
+      color:var(--slate-900);
+    }
+
+    .modal-box span{
+      display:block;
+      margin-top:6px;
+      font-size:14px;
+      color:var(--slate-700);
+      line-height:1.5;
+    }
+
+    .footer-space{ height:20px; }
+
+    @media (max-width: 1120px){
+      .products-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+      .benefits-grid{ grid-template-columns:1fr; }
+      .steps-wrap{ grid-template-columns:1fr; }
+      .contact-grid{ grid-template-columns:1fr; }
+    }
+
+    @media (max-width: 860px){
+      .nav-links{ display:none; }
+      .hero{ grid-template-columns:1fr; }
+      .hero-stats{ grid-template-columns:1fr 1fr 1fr; }
+      .products-grid{ grid-template-columns:1fr; }
+      .steps-grid{ grid-template-columns:1fr; }
+    }
+
+    @media (max-width: 640px){
+      .container{ width:min(100% - 20px, 1280px); }
+      .site-header-inner{ gap:10px; }
+      .brand-title{ white-space:normal; }
+      .pill-link{ display:none; }
+      h1{ font-size:42px; }
+      .section-title{ font-size:34px; }
+      .card-title{ font-size:30px; }
+      .hero-stats{ grid-template-columns:1fr; }
+      .visual-grid{ grid-template-columns:repeat(2,1fr); }
+      .meta-grid{ grid-template-columns:1fr; }
+      .field-grid{ grid-template-columns:1fr; }
+      .total-head{ flex-direction:column; align-items:flex-start; }
+      .modal-grid{ grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="modal show" id="promoModal" aria-hidden="false">
+    <div class="modal-card">
+      <button class="modal-close" id="closePromo" aria-label="Cerrar">×</button>
+      <div class="modal-top">
+        <div class="modal-tag">Concurso del mes</div>
+        <div class="modal-title">
+          Todas tus compras participan por una máquina de espresso Oster PrimaLatte
+        </div>
+        <div class="modal-copy">
+          Compra tu café de especialidad y participa automáticamente en el sorteo del mes.
+        </div>
+      </div>
+      <div class="modal-bottom">
+        <div class="modal-grid">
+          <div class="modal-box">
+            <strong>Despacho gratis</strong>
+            <span>Valparaíso y Viña del Mar</span>
+          </div>
+          <div class="modal-box">
+            <strong>Pedido rápido</strong>
+            <span>Arma tu carrito y envíalo a WhatsApp</span>
+          </div>
+        </div>
+
+        <button class="btn btn-dark" id="promoGoProducts" style="width:100%;margin-top:16px;">
+          Ver cafés disponibles
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <div>
+        <div class="cart-title-mini">Tu pedido</div>
+        <div class="cart-title">Carrito</div>
+      </div>
+      <button class="close-btn" id="closeCart" aria-label="Cerrar carrito">×</button>
+    </div>
+
+    <div class="cart-body">
+      <div class="promo-inline">
+        <strong>Promoción del mes</strong>
+        <p>Todas las compras participan en el sorteo de una Oster PrimaLatte.</p>
+      </div>
+
+      <div id="cartContent"></div>
+
+      <div class="customer-box">
+        <h4>Datos para enviar el pedido</h4>
+        <div class="customer-fields">
+          <input class="input-dark" id="customerName" type="text" placeholder="Nombre" />
+          <input class="input-dark" id="customerCommune" type="text" placeholder="Comuna o sector" />
+          <input class="input-dark" id="customerPhone" type="text" placeholder="Teléfono de respaldo" />
+          <textarea class="textarea-dark" id="customerNotes" placeholder="Notas del pedido"></textarea>
+        </div>
+      </div>
+
+      <div class="total-box">
+        <div class="total-head">
+          <div>
+            <div class="total-label">Total</div>
+            <div class="total-value" id="cartTotal">$0</div>
+          </div>
+          <div class="total-copy">
+            Despacho gratis en Valparaíso y Viña del Mar
+          </div>
+        </div>
+
+        <a href="#productos" class="wa-link disabled" id="waLink">Enviar pedido por WhatsApp</a>
+      </div>
+    </div>
+  </aside>
+
+  <header class="site-header">
+    <div class="container site-header-inner">
+      <a href="#inicio" class="brand">
+        <img src="images/Logo.jpg" alt="Distribuidora Vuelo" />
+        <div>
+          <div class="brand-eyebrow">Distribuidora Vuelo</div>
+          <div class="brand-title">Café de especialidad</div>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <div class="nav-links">
+          <a href="#productos">Cafés</a>
+          <a href="#beneficios">Beneficios</a>
+          <a href="#contacto">Contacto</a>
+        </div>
+
+        <a
+          class="pill-link"
+          href="https://www.instagram.com/vuelo.distribuidora/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Instagram
+        </a>
+
+        <button class="cart-button" id="openCart">
+          Carrito
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container hero" id="inicio">
+      <div>
+        <div class="tag">Quinientos Cuatro Coffee Roasters</div>
+
+        <h1>Café de especialidad para tu casa, negocio o equipo.</h1>
+
+        <p>
+          Distribuidora Vuelo comercializa cafés de Quinientos Cuatro. Elige tu origen,
+          selecciona la molienda, arma tu carrito y envía tu pedido directo por WhatsApp.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#productos" class="btn btn-dark">Ver cafés disponibles</a>
+          <a
+            href="https://wa.me/56954177638"
+            target="_blank"
+            rel="noreferrer"
+            class="btn btn-light"
+          >
+            +56 9 5417 7638
+          </a>
+        </div>
+
+        <div class="hero-badges">
+          <div class="mini-badge"><span class="dot"></span>Compra fácil</div>
+          <div class="mini-badge"><span class="dot"></span>Café fresco</div>
+          <div class="mini-badge"><span class="dot"></span>Atención por WhatsApp</div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="visual-card">
+          <div class="visual-inner">
+            <img class="visual-logo" src="images/Logo.jpg" alt="Logo Distribuidora Vuelo" />
+            <div class="visual-title">Distribuidora Vuelo</div>
+            <div class="visual-copy">
+              Selección de cafés de especialidad con despacho gratis en Valparaíso y Viña del Mar.
+            </div>
+
+            <div class="visual-grid">
+              <div class="visual-tile"><img src="images/BRASIL.png" alt="Brasil" /></div>
+              <div class="visual-tile"><img src="images/BOLIVIA.png" alt="Bolivia" /></div>
+              <div class="visual-tile"><img src="images/COLOMBIA.png" alt="Colombia" /></div>
+              <div class="visual-tile"><img src="images/HONDURAS.png" alt="Honduras" /></div>
+              <div class="visual-tile"><img src="images/RUANDA.png" alt="Ruanda" /></div>
+              <div class="visual-tile"><img src="images/ETIOPIA.png" alt="Etiopía" /></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-label">Desde</div>
+            <div class="stat-value">$32.000</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Orígenes</div>
+            <div class="stat-value">6</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Moliendas</div>
+            <div class="stat-value">5</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container benefits" id="beneficios">
+      <div class="benefits-grid">
+        <div class="card card-dark">
+          <div class="card-body">
+            <div class="tag" style="background:rgba(255,255,255,.1);border:none;color:#fde68a;">Lo que ofreces</div>
+            <div class="card-title">Una compra simple, clara y directa.</div>
+            <div class="card-copy">
+              El cliente elige el origen, define la molienda, selecciona los kilos y envía el pedido en un clic.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div style="font-size:24px;">🚚</div>
+            <div class="feature-title">Despacho incluido</div>
+            <div class="feature-copy">
+              Todos los pedidos tienen despacho gratis en Valparaíso y Viña del Mar.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div style="font-size:24px;">☕</div>
+            <div class="feature-title">Especialidad</div>
+            <div class="feature-copy">
+              Orígenes seleccionados de Quinientos Cuatro Coffee Roasters.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" id="productos">
+      <div class="section-top">
+        <div>
+          <div class="section-eyebrow">Catálogo</div>
+          <div class="section-title">Elige tu café</div>
+          <div class="section-copy">
+            Cada origen puede agregarse al carrito con la molienda y el peso que necesites.
+          </div>
+        </div>
+
+        <div class="floating-note">
+          Precios por kilo. Puedes pedir fracciones desde 0.25 kg.
+        </div>
+      </div>
+
+      <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <section class="container steps-wrap">
+      <div class="card">
+        <div class="card-body">
+          <div class="section-eyebrow">Cómo funciona</div>
+          <div class="section-title" style="font-size:42px;">Pide en tres pasos</div>
+
+          <div class="steps-grid">
+            <div class="step-box">
+              <div class="step-eyebrow">Paso 1</div>
+              <div class="step-title">Elige origen</div>
+              <div class="step-copy">
+                Revisa perfiles de sabor y selecciona el café que más te guste.
+              </div>
+            </div>
+
+            <div class="step-box">
+              <div class="step-eyebrow">Paso 2</div>
+              <div class="step-title">Define molienda y kilos</div>
+              <div class="step-copy">
+                Grano entero o molienda específica según tu método.
+              </div>
+            </div>
+
+            <div class="step-box">
+              <div class="step-eyebrow">Paso 3</div>
+              <div class="step-title">Envía por WhatsApp</div>
+              <div class="step-copy">
+                El carrito arma el mensaje listo para atender el pedido.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-dark promo-panel">
+        <div class="card-body">
+          <div class="tag" style="background:rgba(255,255,255,.1);border:none;color:#fde68a;">Sorteo activo</div>
+          <div class="card-title" style="font-size:38px;">Este mes compras café y participas.</div>
+          <div class="feature-copy">
+            Todas las compras del mes entran al sorteo de una máquina de espresso Oster PrimaLatte.
+          </div>
+
+          <div class="promo-list">
+            <div>Compra simple desde el celular.</div>
+            <div>Beneficio claro y visible desde el inicio.</div>
+            <div>Carrito conectado a atención directa por WhatsApp.</div>
+          </div>
+
+          <button class="btn" id="openPromoAgain" style="margin-top:20px;background:#fff;color:#0f172a;">
+            Ver promoción
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="container contact-grid" id="contacto">
+      <div class="card">
+        <div class="card-body">
+          <div class="section-eyebrow">Contacto</div>
+          <div class="section-title" style="font-size:42px;">Atención directa y rápida</div>
+
+          <div class="contact-stack">
+            <a
+              class="contact-link"
+              href="https://wa.me/56954177638"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div class="icon-box">💬</div>
+              <div>
+                <div class="contact-small">WhatsApp</div>
+                <div class="contact-strong">+56 9 5417 7638</div>
+              </div>
+            </a>
+
+            <a
+              class="contact-link"
+              href="https://www.instagram.com/vuelo.distribuidora/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div class="icon-box">◎</div>
+              <div>
+                <div class="contact-small">Instagram</div>
+                <div class="contact-strong">@vuelo.distribuidora</div>
+              </div>
+            </a>
+
+            <div class="contact-link">
+              <div class="icon-box">📍</div>
+              <div>
+                <div class="contact-small">Cobertura actual</div>
+                <div class="contact-strong">Valparaíso y Viña del Mar</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-dark">
+        <div class="card-body">
+          <div class="section-eyebrow" style="color:#94a3b8;">Resumen</div>
+          <div class="section-title" style="font-size:42px;">Distribuidora Vuelo</div>
+
+          <div class="feature-copy">
+            Comercializadora de café de especialidad. Sin dirección pública por ahora,
+            con atención directa por WhatsApp y entrega gratuita en Valparaíso y Viña del Mar.
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-box">
+              <div class="summary-box-title">Orígenes base</div>
+              <div class="summary-box-value">$32.000</div>
+              <div class="summary-box-copy">
+                Brasil, Bolivia, Colombia, Honduras
+              </div>
+            </div>
+
+            <div class="summary-box">
+              <div class="summary-box-title">Orígenes premium</div>
+              <div class="summary-box-value">$44.000</div>
+              <div class="summary-box-copy">
+                Ruanda y Etiopía
+              </div>
+            </div>
+          </div>
+
+          <button class="btn" id="openCartBottom" style="margin-top:20px;background:#fff;color:#0f172a;">
+            Abrir carrito
+          </button>
+
+          <div class="summary-footer">
+            Total actual del carrito:
+            <strong id="summaryCartTotal">$0</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer-space"></div>
+
+  <script>
+    const WHATSAPP_NUMBER = "56954177638";
+    const INSTAGRAM_URL = "https://www.instagram.com/vuelo.distribuidora/";
+    const grindOptions = ["Grano entero", "Francesa", "Italiana", "Espresso", "Goteo"];
+    const qtyOptions = [0.25, 0.5, 0.75, 1, 1.5, 2, 3];
+
+    const products = [
+      {
+        id: "brasil",
+        name: "Brasil",
+        pricePerKg: 32000,
+        image: "images/BRASIL.png",
+        accent: "#4D98A3",
+        region: "Sur de Minas Gerais, Caetano",
+        process: "Natural",
+        altitude: "1200 M.S.N.M",
+        notes: "Chocolate, Caramelo y Almendra",
+        variety: "Bourbon Amarillo, Mundo Novo",
+        badge: "Equilibrado"
+      },
+      {
+        id: "bolivia",
+        name: "Bolivia",
+        pricePerKg: 32000,
+        image: "images/BOLIVIA.png",
+        accent: "#D9AA47",
+        region: "Caranavi",
+        process: "Lavado",
+        altitude: "1600 M.S.N.M",
+        notes: "Cacao, Limón y Avellana",
+        variety: "Catuai, Typica, Caturra",
+        badge: "Dulce cítrico"
+      },
+      {
+        id: "colombia",
+        name: "Colombia",
+        pricePerKg: 32000,
+        image: "images/COLOMBIA.png",
+        accent: "#D5CF7C",
+        region: "Caldas",
+        process: "Lavado",
+        altitude: "1700 M.S.N.M",
+        notes: "Manjar, Toffee, Frutos Secos",
+        variety: "Castillo, Caturra",
+        badge: "Clásico goloso"
+      },
+      {
+        id: "honduras",
+        name: "Honduras",
+        pricePerKg: 32000,
+        image: "images/HONDURAS.png",
+        accent: "#37B9E8",
+        region: "Jesús de Otoro, Intibuca, Finca Las Caobas",
+        process: "Lavado",
+        altitude: "1600 M.S.N.M",
+        notes: "Cacao, Durazno y Caramelo",
+        variety: "Parainema",
+        badge: "Suave frutal"
+      },
+      {
+        id: "ruanda",
+        name: "Ruanda",
+        pricePerKg: 44000,
+        image: "images/RUANDA.png",
+        accent: "#F28A12",
+        region: "Gaseke, Valle Nyakanuye, Rusizi",
+        process: "Lavado",
+        altitude: "2100 M.S.N.M",
+        notes: "Durazno, Hibiscus y Pomelo",
+        variety: "Bourbon Rojo",
+        badge: "Alta complejidad"
+      },
+      {
+        id: "etiopia",
+        name: "Etiopía",
+        pricePerKg: 44000,
+        image: "images/ETIOPIA.png",
+        accent: "#4DBB2F",
+        region: "Oromia",
+        process: "Lavado",
+        altitude: "1800 M.S.N.M",
+        notes: "Pimienta, Chocolate Amargo y Uva Morada",
+        variety: "Jarc",
+        badge: "Exótico"
+      }
+    ];
+
+    let cart = JSON.parse(localStorage.getItem("vuelo-cart") || "[]");
+    let customer = JSON.parse(localStorage.getItem("vuelo-customer") || "{\"name\":\"\",\"commune\":\"\",\"phone\":\"\",\"notes\":\"\"}");
+
+    const productsGrid = document.getElementById("productsGrid");
+    const cartBadge = document.getElementById("cartBadge");
+    const cartDrawer = document.getElementById("cartDrawer");
+    const overlay = document.getElementById("overlay");
+    const cartContent = document.getElementById("cartContent");
+    const cartTotal = document.getElementById("cartTotal");
+    const summaryCartTotal = document.getElementById("summaryCartTotal");
+    const waLink = document.getElementById("waLink");
+    const promoModal = document.getElementById("promoModal");
+
+    const customerName = document.getElementById("customerName");
+    const customerCommune = document.getElementById("customerCommune");
+    const customerPhone = document.getElementById("customerPhone");
+    const customerNotes = document.getElementById("customerNotes");
+
+    const money = (value) => new Intl.NumberFormat("es-CL", {
+      style: "currency",
+      currency: "CLP",
+      maximumFractionDigits: 0
+    }).format(value);
+
+    function lineTotal(pricePerKg, kg) {
+      return Math.round(pricePerKg * kg);
+    }
+
+    function uid() {
+      return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    }
+
+    function saveCart() {
+      localStorage.setItem("vuelo-cart", JSON.stringify(cart));
+    }
+
+    function saveCustomer() {
+      customer = {
+        name: customerName.value,
+        commune: customerCommune.value,
+        phone: customerPhone.value,
+        notes: customerNotes.value
+      };
+      localStorage.setItem("vuelo-customer", JSON.stringify(customer));
+      renderCart();
+    }
+
+    function hydrateCustomer() {
+      customerName.value = customer.name || "";
+      customerCommune.value = customer.commune || "";
+      customerPhone.value = customer.phone || "";
+      customerNotes.value = customer.notes || "";
+    }
+
+    function buildWhatsappText() {
+      const lines = [
+        "Hola, quiero hacer un pedido en Distribuidora Vuelo.",
+        "",
+        "Detalle del pedido:",
+        ...cart.map((item, index) =>
+          `${index + 1}. ${item.name} | ${item.kg} kg | Molienda: ${item.grind} | Subtotal: ${money(item.subtotal)}`
+        ),
+        "",
+        `Total: ${money(cart.reduce((acc, item) => acc + item.subtotal, 0))}`,
+        "",
+        "Datos de contacto:",
+        `Nombre: ${customer.name || "No indicado"}`,
+        `Comuna / sector: ${customer.commune || "No indicado"}`,
+        `Teléfono de respaldo: ${customer.phone || "No indicado"}`,
+        `Notas: ${customer.notes || "Sin notas"}`,
+        "",
+        "Entiendo que el despacho es gratis en Valparaíso y Viña del Mar.",
+        "También quiero participar en el sorteo del mes de la máquina de espresso Oster PrimaLatte."
+      ];
+
+      return encodeURIComponent(lines.join("\\n"));
+    }
+
+    function openCart() {
+      overlay.classList.add("show");
+      cartDrawer.classList.add("show");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeCart() {
+      overlay.classList.remove("show");
+      cartDrawer.classList.remove("show");
+      if (!promoModal.classList.contains("show")) {
+        document.body.style.overflow = "";
+      }
+    }
+
+    function openPromo() {
+      promoModal.classList.add("show");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closePromo() {
+      promoModal.classList.remove("show");
+      if (!cartDrawer.classList.contains("show")) {
+        document.body.style.overflow = "";
+      }
+    }
+
+    function renderProducts() {
+      productsGrid.innerHTML = products.map((product) => `
+        <article class="product-card">
+          <div class="product-media">
+            <img src="${product.image}" alt="Café ${product.name}" />
+            <div class="product-badge">${product.badge}</div>
+          </div>
+
+          <div class="product-body">
+            <div class="product-head">
+              <div>
+                <h3 class="product-name">${product.name}</h3>
+                <p class="product-notes">${product.notes}</p>
+              </div>
+
+              <div class="price-chip" style="background:${product.accent}">
+                <div class="price-chip-label">Precio</div>
+                <div class="price-chip-value">${money(product.pricePerKg)} / kg</div>
+              </div>
+            </div>
+
+            <div class="meta-grid">
+              <div class="meta-box">
+                <div class="meta-label">Región</div>
+                <div class="meta-value">${product.region}</div>
+              </div>
+              <div class="meta-box">
+                <div class="meta-label">Proceso</div>
+                <div class="meta-value">${product.process}</div>
+              </div>
+              <div class="meta-box">
+                <div class="meta-label">Altura</div>
+                <div class="meta-value">${product.altitude}</div>
+              </div>
+            </div>
+
+            <div class="variety-box">
+              <div class="meta-label">Variedad</div>
+              <div class="meta-value">${product.variety}</div>
+            </div>
+
+            <div class="field-grid">
+              <label class="field">
+                <span>Molienda</span>
+                <select class="select grind-select" data-product="${product.id}">
+                  ${grindOptions.map(option => `<option value="${option}">${option}</option>`).join("")}
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Cantidad</span>
+                <select class="select qty-select" data-product="${product.id}">
+                  ${qtyOptions.map(option => `<option value="${option}" ${option === 1 ? "selected" : ""}>${option} kg</option>`).join("")}
+                </select>
+              </label>
+            </div>
+
+            <div class="subtotal-box">
+              <div>
+                <div class="subtotal-label">Subtotal</div>
+                <div class="subtotal-value" id="subtotal-${product.id}">${money(lineTotal(product.pricePerKg, 1))}</div>
+              </div>
+
+              <button class="add-btn add-product" data-product="${product.id}">
+                Agregar
+              </button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      document.querySelectorAll(".qty-select").forEach(select => {
+        select.addEventListener("change", (e) => {
+          const productId = e.target.dataset.product;
+          const product = products.find(p => p.id === productId);
+          const subtotal = lineTotal(product.pricePerKg, Number(e.target.value));
+          document.getElementById(`subtotal-${productId}`).textContent = money(subtotal);
+        });
+      });
+
+      document.querySelectorAll(".add-product").forEach(button => {
+        button.addEventListener("click", (e) => {
+          const productId = e.target.dataset.product;
+          const product = products.find(p => p.id === productId);
+          const grind = document.querySelector(`.grind-select[data-product="${productId}"]`).value;
+          const kg = Number(document.querySelector(`.qty-select[data-product="${productId}"]`).value);
+
+          cart.push({
+            id: uid(),
+            productId: product.id,
+            name: product.name,
+            grind,
+            kg,
+            pricePerKg: product.pricePerKg,
+            subtotal: lineTotal(product.pricePerKg, kg)
+          });
+
+          saveCart();
+          renderCart();
+          openCart();
+        });
+      });
+    }
+
+    function renderCart() {
+      cartBadge.textContent = cart.length;
+
+      if (!cart.length) {
+        cartContent.innerHTML = `<div class="cart-empty">Aún no agregas café al carrito.</div>`;
+      } else {
+        cartContent.innerHTML = `
+          <div class="cart-items">
+            ${cart.map(item => `
+              <div class="cart-item">
+                <div class="cart-item-top">
+                  <div>
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-small">${item.grind}</div>
+                    <div class="cart-item-small">${money(item.pricePerKg)} / kg</div>
+                  </div>
+
+                  <button class="tiny-btn remove-item" data-id="${item.id}">
+                    Quitar
+                  </button>
+                </div>
+
+                <div class="cart-item-bottom">
+                  <label class="field" style="flex:1;">
+                    <span>Cantidad</span>
+                    <select class="select-dark cart-qty" data-id="${item.id}">
+                      ${qtyOptions.map(option => `<option value="${option}" ${Number(option) === Number(item.kg) ? "selected" : ""}>${option} kg</option>`).join("")}
+                    </select>
+                  </label>
+
+                  <div class="subtotal-right">
+                    <div class="subtotal-label">Subtotal</div>
+                    <div class="subtotal-value">${money(item.subtotal)}</div>
+                  </div>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      const total = cart.reduce((acc, item) => acc + item.subtotal, 0);
+      cartTotal.textContent = money(total);
+      summaryCartTotal.textContent = money(total);
+
+      if (cart.length) {
+        waLink.classList.remove("disabled");
+        waLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsappText()}`;
+        waLink.target = "_blank";
+        waLink.rel = "noreferrer";
+      } else {
+        waLink.classList.add("disabled");
+        waLink.href = "#productos";
+      }
+
+      document.querySelectorAll(".remove-item").forEach(button => {
+        button.addEventListener("click", () => {
+          cart = cart.filter(item => item.id !== button.dataset.id);
+          saveCart();
+          renderCart();
+        });
+      });
+
+      document.querySelectorAll(".cart-qty").forEach(select => {
+        select.addEventListener("change", () => {
+          cart = cart.map(item => {
+            if (item.id === select.dataset.id) {
+              const nextKg = Number(select.value);
+              return {
+                ...item,
+                kg: nextKg,
+                subtotal: lineTotal(item.pricePerKg, nextKg)
+              };
+            }
+            return item;
+          });
+
+          saveCart();
+          renderCart();
+        });
+      });
+    }
+
+    document.getElementById("openCart").addEventListener("click", openCart);
+    document.getElementById("openCartBottom").addEventListener("click", openCart);
+    document.getElementById("closeCart").addEventListener("click", closeCart);
+    document.getElementById("openPromoAgain").addEventListener("click", openPromo);
+    document.getElementById("closePromo").addEventListener("click", closePromo);
+    document.getElementById("promoGoProducts").addEventListener("click", () => {
+      closePromo();
+      document.getElementById("productos").scrollIntoView({ behavior: "smooth" });
+    });
+
+    overlay.addEventListener("click", closeCart);
+
+    customerName.addEventListener("input", saveCustomer);
+    customerCommune.addEventListener("input", saveCustomer);
+    customerPhone.addEventListener("input", saveCustomer);
+    customerNotes.addEventListener("input", saveCustomer);
+
+    hydrateCustomer();
+    renderProducts();
+    renderCart();
+  </script>
+</body>
+</html>      background:#111;
       color:#fff;
       font-size:14px;
       padding:10px 0;
