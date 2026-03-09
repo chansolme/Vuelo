@@ -1430,7 +1430,7 @@
         <div class="hero-stats">
           <div class="stat">
             <div class="stat-label">Desde</div>
-            <div class="stat-value">$32.000</div>
+            <div class="stat-value">$12.000</div>
           </div>
           <div class="stat">
             <div class="stat-label">Orígenes</div>
@@ -1489,7 +1489,7 @@
         </div>
 
         <div class="floating-note">
-          Precios por kilo. Puedes pedir fracciones desde 0.25 kg.
+          Formatos disponibles: 250 g y 1 kg.
         </div>
       </div>
 
@@ -1642,89 +1642,94 @@
     const WHATSAPP_NUMBER = "56954177638";
     const INSTAGRAM_URL = "https://www.instagram.com/vuelo.distribuidora/";
     const grindOptions = ["Grano entero", "Francesa", "Italiana", "Espresso", "Goteo"];
-    const qtyOptions = [0.25, 0.5, 0.75, 1, 1.5, 2, 3];
+    const qtyOptions = [0.25, 1];
 
     const products = [
-      {
-        id: "brasil",
-        name: "Brasil",
-        pricePerKg: 32000,
-        image: "images/BRASIL.png",
-        accent: "#4D98A3",
-        region: "Sur de Minas Gerais, Caetano",
-        process: "Natural",
-        altitude: "1200 M.S.N.M",
-        notes: "Chocolate, Caramelo y Almendra",
-        variety: "Bourbon Amarillo, Mundo Novo",
-        badge: "Equilibrado"
-      },
-      {
-        id: "bolivia",
-        name: "Bolivia",
-        pricePerKg: 32000,
-        image: "images/BOLIVIA.png",
-        accent: "#D9AA47",
-        region: "Caranavi",
-        process: "Lavado",
-        altitude: "1600 M.S.N.M",
-        notes: "Cacao, Limón y Avellana",
-        variety: "Catuai, Typica, Caturra",
-        badge: "Dulce cítrico"
-      },
-      {
-        id: "colombia",
-        name: "Colombia",
-        pricePerKg: 32000,
-        image: "images/COLOMBIA.png",
-        accent: "#D5CF7C",
-        region: "Caldas",
-        process: "Lavado",
-        altitude: "1700 M.S.N.M",
-        notes: "Manjar, Toffee, Frutos Secos",
-        variety: "Castillo, Caturra",
-        badge: "Clásico goloso"
-      },
-      {
-        id: "honduras",
-        name: "Honduras",
-        pricePerKg: 32000,
-        image: "images/HONDURAS.png",
-        accent: "#37B9E8",
-        region: "Jesús de Otoro, Intibuca, Finca Las Caobas",
-        process: "Lavado",
-        altitude: "1600 M.S.N.M",
-        notes: "Cacao, Durazno y Caramelo",
-        variety: "Parainema",
-        badge: "Suave frutal"
-      },
-      {
-        id: "ruanda",
-        name: "Ruanda",
-        pricePerKg: 44000,
-        image: "images/RUANDA.png",
-        accent: "#F28A12",
-        region: "Gaseke, Valle Nyakanuye, Rusizi",
-        process: "Lavado",
-        altitude: "2100 M.S.N.M",
-        notes: "Durazno, Hibiscus y Pomelo",
-        variety: "Bourbon Rojo",
-        badge: "Alta complejidad"
-      },
-      {
-        id: "etiopia",
-        name: "Etiopía",
-        pricePerKg: 44000,
-        image: "images/ETIOPIA.png",
-        accent: "#4DBB2F",
-        region: "Oromia",
-        process: "Lavado",
-        altitude: "1800 M.S.N.M",
-        notes: "Pimienta, Chocolate Amargo y Uva Morada",
-        variety: "Jarc",
-        badge: "Exótico"
-      }
-    ];
-
+  {
+    id: "brasil",
+    name: "Brasil",
+    price250g: 12000,
+    price1kg: 32000,
+    image: "images/BRASIL.png",
+    accent: "#4D98A3",
+    region: "Sur de Minas Gerais, Caetano",
+    process: "Natural",
+    altitude: "1200 M.S.N.M",
+    notes: "Chocolate, Caramelo y Almendra",
+    variety: "Bourbon Amarillo, Mundo Novo",
+    badge: "Equilibrado"
+  },
+  {
+    id: "bolivia",
+    name: "Bolivia",
+    price250g: 12000,
+    price1kg: 32000,
+    image: "images/BOLIVIA.png",
+    accent: "#D9AA47",
+    region: "Caranavi",
+    process: "Lavado",
+    altitude: "1600 M.S.N.M",
+    notes: "Cacao, Limón y Avellana",
+    variety: "Catuai, Typica, Caturra",
+    badge: "Dulce cítrico"
+  },
+  {
+    id: "colombia",
+    name: "Colombia",
+    price250g: 12000,
+    price1kg: 32000,
+    image: "images/COLOMBIA.png",
+    accent: "#D5CF7C",
+    region: "Caldas",
+    process: "Lavado",
+    altitude: "1700 M.S.N.M",
+    notes: "Manjar, Toffee, Frutos Secos",
+    variety: "Castillo, Caturra",
+    badge: "Clásico goloso"
+  },
+  {
+    id: "honduras",
+    name: "Honduras",
+    price250g: 12000,
+    price1kg: 32000,
+    image: "images/HONDURAS.png",
+    accent: "#37B9E8",
+    region: "Jesús de Otoro, Intibuca, Finca Las Caobas",
+    process: "Lavado",
+    altitude: "1600 M.S.N.M",
+    notes: "Cacao, Durazno y Caramelo",
+    variety: "Parainema",
+    badge: "Suave frutal"
+  },
+  {
+    id: "ruanda",
+    name: "Ruanda",
+    price250g: 15000,
+    price1kg: 44000,
+    image: "images/RUANDA.png",
+    accent: "#F28A12",
+    region: "Gaseke, Valle Nyakanuye, Rusizi",
+    process: "Lavado",
+    altitude: "2100 M.S.N.M",
+    notes: "Durazno, Hibiscus y Pomelo",
+    variety: "Bourbon Rojo",
+    badge: "Alta complejidad"
+  },
+  {
+    id: "etiopia",
+    name: "Etiopía",
+    price250g: 15000,
+    price1kg: 44000,
+    image: "images/ETIOPIA.png",
+    accent: "#4DBB2F",
+    region: "Oromia",
+    process: "Lavado",
+    altitude: "1800 M.S.N.M",
+    notes: "Pimienta, Chocolate Amargo y Uva Morada",
+    variety: "Jarc",
+    badge: "Exótico"
+  }
+];
     let cart = JSON.parse(localStorage.getItem("vuelo-cart") || "[]");
     let customer = JSON.parse(localStorage.getItem("vuelo-customer") || "{\"name\":\"\",\"commune\":\"\",\"phone\":\"\",\"notes\":\"\"}");
 
@@ -1749,8 +1754,8 @@
       maximumFractionDigits: 0
     }).format(value);
 
-    function lineTotal(pricePerKg, kg) {
-      return Math.round(pricePerKg * kg);
+    function lineTotal(product, kg) {
+  return Number(kg) === 0.25 ? product.price250g : product.price1kg;
     }
 
     function uid() {
@@ -1785,7 +1790,7 @@
         "",
         "Detalle del pedido:",
         ...cart.map((item, index) =>
-          `${index + 1}. ${item.name} | ${item.kg} kg | Molienda: ${item.grind} | Subtotal: ${money(item.subtotal)}`
+          `${index + 1}. ${item.name} | ${item.kg === 0.25 ? "250 g" : "1 kg"} | Molienda: ${item.grind} | Subtotal: ${money(item.subtotal)}`
         ),
         "",
         `Total: ${money(cart.reduce((acc, item) => acc + item.subtotal, 0))}`,
@@ -1830,108 +1835,111 @@
     }
 
     function renderProducts() {
-      productsGrid.innerHTML = products.map((product) => `
-        <article class="product-card">
-          <div class="product-media">
-            <img src="${product.image}" alt="Café ${product.name}" />
-            <div class="product-badge">${product.badge}</div>
+  productsGrid.innerHTML = products.map((product) => `
+    <article class="product-card">
+      <div class="product-media">
+        <img src="${product.image}" alt="Café ${product.name}" />
+        <div class="product-badge">${product.badge}</div>
+      </div>
+
+      <div class="product-body">
+        <div class="product-head">
+          <div>
+            <h3 class="product-name">${product.name}</h3>
+            <p class="product-notes">${product.notes}</p>
           </div>
 
-          <div class="product-body">
-            <div class="product-head">
-              <div>
-                <h3 class="product-name">${product.name}</h3>
-                <p class="product-notes">${product.notes}</p>
-              </div>
-
-              <div class="price-chip" style="background:${product.accent}">
-                <div class="price-chip-label">Precio</div>
-                <div class="price-chip-value">${money(product.pricePerKg)} / kg</div>
-              </div>
-            </div>
-
-            <div class="meta-grid">
-              <div class="meta-box">
-                <div class="meta-label">Región</div>
-                <div class="meta-value">${product.region}</div>
-              </div>
-              <div class="meta-box">
-                <div class="meta-label">Proceso</div>
-                <div class="meta-value">${product.process}</div>
-              </div>
-              <div class="meta-box">
-                <div class="meta-label">Altura</div>
-                <div class="meta-value">${product.altitude}</div>
-              </div>
-            </div>
-
-            <div class="variety-box">
-              <div class="meta-label">Variedad</div>
-              <div class="meta-value">${product.variety}</div>
-            </div>
-
-            <div class="field-grid">
-              <label class="field">
-                <span>Molienda</span>
-                <select class="select grind-select" data-product="${product.id}">
-                  ${grindOptions.map(option => `<option value="${option}">${option}</option>`).join("")}
-                </select>
-              </label>
-
-              <label class="field">
-                <span>Cantidad</span>
-                <select class="select qty-select" data-product="${product.id}">
-                  ${qtyOptions.map(option => `<option value="${option}" ${option === 1 ? "selected" : ""}>${option} kg</option>`).join("")}
-                </select>
-              </label>
-            </div>
-
-            <div class="subtotal-box">
-              <div>
-                <div class="subtotal-label">Subtotal</div>
-                <div class="subtotal-value" id="subtotal-${product.id}">${money(lineTotal(product.pricePerKg, 1))}</div>
-              </div>
-
-              <button class="add-btn add-product" data-product="${product.id}">
-                Agregar
-              </button>
-            </div>
+          <div class="price-chip" style="background:${product.accent}">
+            <div class="price-chip-label">Precios</div>
+            <div class="price-chip-value">250 g ${money(product.price250g)}</div>
+            <div class="price-chip-value">1 kg ${money(product.price1kg)}</div>
           </div>
-        </article>
-      `).join("");
+        </div>
 
-      document.querySelectorAll(".qty-select").forEach(select => {
-        select.addEventListener("change", (e) => {
-          const productId = e.target.dataset.product;
-          const product = products.find(p => p.id === productId);
-          const subtotal = lineTotal(product.pricePerKg, Number(e.target.value));
-          document.getElementById(`subtotal-${productId}`).textContent = money(subtotal);
-        });
+        <div class="meta-grid">
+          <div class="meta-box">
+            <div class="meta-label">Región</div>
+            <div class="meta-value">${product.region}</div>
+          </div>
+          <div class="meta-box">
+            <div class="meta-label">Proceso</div>
+            <div class="meta-value">${product.process}</div>
+          </div>
+          <div class="meta-box">
+            <div class="meta-label">Altura</div>
+            <div class="meta-value">${product.altitude}</div>
+          </div>
+        </div>
+
+        <div class="variety-box">
+          <div class="meta-label">Variedad</div>
+          <div class="meta-value">${product.variety}</div>
+        </div>
+
+        <div class="field-grid">
+          <label class="field">
+            <span>Molienda</span>
+            <select class="select grind-select" data-product="${product.id}">
+              ${grindOptions.map(option => `<option value="${option}">${option}</option>`).join("")}
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Formato</span>
+            <select class="select qty-select" data-product="${product.id}">
+              <option value="0.25">250 g</option>
+              <option value="1" selected>1 kg</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="subtotal-box">
+          <div>
+            <div class="subtotal-label">Subtotal</div>
+            <div class="subtotal-value" id="subtotal-${product.id}">${money(lineTotal(product, 1))}</div>
+          </div>
+
+          <button class="add-btn add-product" data-product="${product.id}">
+            Agregar
+          </button>
+        </div>
+      </div>
+    </article>
+  `).join("");
+
+  document.querySelectorAll(".qty-select").forEach(select => {
+    select.addEventListener("change", (e) => {
+      const productId = e.target.dataset.product;
+      const product = products.find(p => p.id === productId);
+      const subtotal = lineTotal(product, Number(e.target.value));
+      document.getElementById(`subtotal-${productId}`).textContent = money(subtotal);
+    });
+  });
+
+  document.querySelectorAll(".add-product").forEach(button => {
+    button.addEventListener("click", (e) => {
+      const productId = e.target.dataset.product;
+      const product = products.find(p => p.id === productId);
+      const grind = document.querySelector(`.grind-select[data-product="${productId}"]`).value;
+      const kg = Number(document.querySelector(`.qty-select[data-product="${productId}"]`).value);
+
+      cart.push({
+        id: uid(),
+        productId: product.id,
+        name: product.name,
+        grind,
+        kg,
+        price250g: product.price250g,
+        price1kg: product.price1kg,
+        subtotal: lineTotal(product, kg)
       });
 
-      document.querySelectorAll(".add-product").forEach(button => {
-        button.addEventListener("click", (e) => {
-          const productId = e.target.dataset.product;
-          const product = products.find(p => p.id === productId);
-          const grind = document.querySelector(`.grind-select[data-product="${productId}"]`).value;
-          const kg = Number(document.querySelector(`.qty-select[data-product="${productId}"]`).value);
-
-          cart.push({
-            id: uid(),
-            productId: product.id,
-            name: product.name,
-            grind,
-            kg,
-            pricePerKg: product.pricePerKg,
-            subtotal: lineTotal(product.pricePerKg, kg)
-          });
-
-          saveCart();
-          renderCart();
-          openCart();
-        });
-      });
-    }
+      saveCart();
+      renderCart();
+      openCart();
+    });
+  });
+}
 
     function renderCart() {
       cartBadge.textContent = cart.length;
@@ -1947,7 +1955,9 @@
                   <div>
                     <div class="cart-item-name">${item.name}</div>
                     <div class="cart-item-small">${item.grind}</div>
-                    <div class="cart-item-small">${money(item.pricePerKg)} / kg</div>
+                    <div class="cart-item-small">
+                      ${item.kg === 0.25 ? "250 g" : "1 kg"} · ${money(item.subtotal)}
+                    </div>
                   </div>
 
                   <button class="tiny-btn remove-item" data-id="${item.id}">
@@ -1959,7 +1969,7 @@
                   <label class="field" style="flex:1;">
                     <span>Cantidad</span>
                     <select class="select-dark cart-qty" data-id="${item.id}">
-                      ${qtyOptions.map(option => `<option value="${option}" ${Number(option) === Number(item.kg) ? "selected" : ""}>${option} kg</option>`).join("")}
+                      ${qtyOptions.map(option => `<option value="${option}" ${Number(option) === Number(item.kg) ? "selected" : ""}>${option === 0.25 ? "250 g" : "1 kg"}</option>`).join("")}
                     </select>
                   </label>
 
@@ -2001,14 +2011,16 @@
           cart = cart.map(item => {
             if (item.id === select.dataset.id) {
               const nextKg = Number(select.value);
+              const subtotal = nextKg === 0.25 ? item.price250g : item.price1kg;
+
               return {
                 ...item,
-                kg: nextKg,
-                subtotal: lineTotal(item.pricePerKg, nextKg)
-              };
-            }
-            return item;
-          });
+                  kg: nextKg,
+                  subtotal
+                        };
+                        }
+              return item;
+            });
 
           saveCart();
           renderCart();
