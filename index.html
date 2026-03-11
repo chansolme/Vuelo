@@ -70,18 +70,34 @@
       border-bottom:1px solid rgba(226,232,240,.9);
     }
 
-    .promo-image-wrap{
-  padding: 0 24px 24px;
-  background: #0f172a;
+.promo-top-layout{
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
+  align-items: center;
 }
 
-.promo-image{
-  width: 50%;
-  max-height: 160px;
+.promo-top-text{
+  min-width: 0;
+}
+
+.promo-side-image{
+  width: 100%;
+  max-height: 180px;
   object-fit: contain;
-  border-radius: 22px;
+  border-radius: 18px;
   background: #fff;
   display: block;
+}
+
+@media (max-width: 640px){
+  .promo-top-layout{
+    grid-template-columns: 1fr;
+  }
+
+  .promo-side-image{
+    max-height: 140px;
+  }
 }
 
     .site-header-inner{
@@ -1285,21 +1301,24 @@
   <div class="modal show" id="promoModal" aria-hidden="false">
     <div class="modal-card">
       <button class="modal-close" id="closePromo" aria-label="Cerrar">×</button>
-      <div class="modal-top">
-        <div class="modal-tag">Concurso del mes</div>
-        <div class="modal-title">
-          Todas tus compras participan por una máquina de espresso Oster PrimaLatte
-        </div>
-        <div class="modal-copy">
-          Compra tu café de especialidad y participa automáticamente en el sorteo del mes.
-        </div>
+<div class="modal-top">
+  <div class="promo-top-layout">
+    <div class="promo-top-text">
+      <div class="modal-tag">Concurso del mes</div>
+      <div class="modal-title">
+        Todas tus compras participan por una máquina de espresso Oster PrimaLatte
       </div>
-      <div class="promo-image-wrap">
-  <img
-    src="images/CAFETERA_PROMOCION.jpg"
-    alt="Máquina de espresso Oster PrimaLatte"
-    class="promo-image"
-  />
+      <div class="modal-copy">
+        Compra tu café de especialidad y participa automáticamente en el sorteo del mes.
+      </div>
+    </div>
+
+    <img
+      src="images/CAFETERA_PROMOCION.jpg"
+      alt="Máquina de espresso Oster PrimaLatte"
+      class="promo-side-image"
+    />
+  </div>
 </div>
       <div class="modal-bottom">
         <div class="modal-grid">
