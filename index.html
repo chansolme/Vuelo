@@ -637,11 +637,17 @@
     }
 
     .field-grid{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns:1fr 160px;
-      gap:12px;
-    }
+  margin-top:14px;
+  display:grid;
+  grid-template-columns:1fr 150px 150px;
+  gap:12px;
+}
+
+@media (max-width: 640px){
+  .field-grid{
+    grid-template-columns:1fr;
+  }
+}
 
     .field{
       display:flex;
@@ -1682,7 +1688,8 @@
     const WHATSAPP_NUMBER = "56954177638";
     const INSTAGRAM_URL = "https://www.instagram.com/vuelo.distribuidora/";
     const grindOptions = ["Grano entero", "Francesa", "Italiana", "Espresso", "Goteo"];
-    const qtyOptions = [0.25, 1];
+    const formatOptions = [0.25, 1];
+    const bagCountOptions = [1, 2, 3, 4, 5, 6, 8, 10];
 
     const products = [
   {
@@ -1794,10 +1801,18 @@
       maximumFractionDigits: 0
     }).format(value);
 
-    function lineTotal(product, kg) {
-  return Number(kg) === 0.25 ? product.price250g : product.price1kg;
-    }
+    function formatLabel(format) {
+  return Number(format) === 0.25 ? "250 g" : "1 kg";
+}
 
+    function unitPrice(product, format) {
+  return Number(format) === 0.25 ? product.price250g : product.price1kg;
+}
+
+    function lineTotal(product, format, bags) {
+  return unitPrice(product, format) * Number(bags);
+}
+    
     function uid() {
       return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     }
@@ -1830,7 +1845,7 @@
         "",
         "Detalle del pedido:",
         ...cart.map((item, index) =>
-          `${index + 1}. ${item.name} | ${item.kg === 0.25 ? "250 g" : "1 kg"} | Molienda: ${item.grind} | Subtotal: ${money(item.subtotal)}`
+          `${index + 1}. ${item.name} | ${item.bags} bolsa${item.bags > 1 ? "s" : ""} de ${formatLabel(item.format)} | Molienda: ${item.grind} | Subtotal: ${money(item.subtotal)}`
         ),
         "",
         `Total: ${money(cart.reduce((acc, item) => acc + item.subtotal, 0))}`,
@@ -1926,9 +1941,23 @@
 
           <label class="field">
             <span>Formato</span>
-            <select class="select qty-select" data-product="${product.id}">
-              <option value="0.25">250 g</option>
-              <option value="1" selected>1 kg</option>
+            <select class="select format-select" data-product="${product.id}">
+              ${formatOptions.map(option => `
+                <option value="${option}" ${Number(option) === 1 ? "selected" : ""}>
+                  ${formatLabel(option)}
+                </option>
+              `).join("")}
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Cantidad</span>
+            <select class="select bags-select" data-product="${product.id}">
+              ${bagCountOptions.map(option => `
+                <option value="${option}" ${option === 1 ? "selected" : ""}>
+                  ${option} bolsa${option > 1 ? "s" : ""}
+                </option>
+              `).join("")}
             </select>
           </label>
         </div>
@@ -1936,7 +1965,9 @@
         <div class="subtotal-box">
           <div>
             <div class="subtotal-label">Subtotal</div>
-            <div class="subtotal-value" id="subtotal-${product.id}">${money(lineTotal(product, 1))}</div>
+            <div class="subtotal-value" id="subtotal-${product.id}">
+              ${money(lineTotal(product, 1, 1))}
+            </div>
           </div>
 
           <button class="add-btn add-product" data-product="${product.id}">
@@ -1947,12 +1978,23 @@
     </article>
   `).join("");
 
-  document.querySelectorAll(".qty-select").forEach(select => {
+  function refreshProductSubtotal(productId) {
+    const product = products.find(p => p.id === productId);
+    const format = Number(document.querySelector(`.format-select[data-product="${productId}"]`).value);
+    const bags = Number(document.querySelector(`.bags-select[data-product="${productId}"]`).value);
+    const subtotal = lineTotal(product, format, bags);
+    document.getElementById(`subtotal-${productId}`).textContent = money(subtotal);
+  }
+
+  document.querySelectorAll(".format-select").forEach(select => {
     select.addEventListener("change", (e) => {
-      const productId = e.target.dataset.product;
-      const product = products.find(p => p.id === productId);
-      const subtotal = lineTotal(product, Number(e.target.value));
-      document.getElementById(`subtotal-${productId}`).textContent = money(subtotal);
+      refreshProductSubtotal(e.target.dataset.product);
+    });
+  });
+
+  document.querySelectorAll(".bags-select").forEach(select => {
+    select.addEventListener("change", (e) => {
+      refreshProductSubtotal(e.target.dataset.product);
     });
   });
 
@@ -1961,17 +2003,19 @@
       const productId = e.target.dataset.product;
       const product = products.find(p => p.id === productId);
       const grind = document.querySelector(`.grind-select[data-product="${productId}"]`).value;
-      const kg = Number(document.querySelector(`.qty-select[data-product="${productId}"]`).value);
+      const format = Number(document.querySelector(`.format-select[data-product="${productId}"]`).value);
+      const bags = Number(document.querySelector(`.bags-select[data-product="${productId}"]`).value);
 
       cart.push({
         id: uid(),
         productId: product.id,
         name: product.name,
         grind,
-        kg,
+        format,
+        bags,
         price250g: product.price250g,
         price1kg: product.price1kg,
-        subtotal: lineTotal(product, kg)
+        subtotal: lineTotal(product, format, bags)
       });
 
       saveCart();
@@ -1982,91 +2026,111 @@
 }
 
     function renderCart() {
-      cartBadge.textContent = cart.length;
+  cartBadge.textContent = cart.length;
 
-      if (!cart.length) {
-        cartContent.innerHTML = `<div class="cart-empty">Aún no agregas café al carrito.</div>`;
-      } else {
-        cartContent.innerHTML = `
-          <div class="cart-items">
-            ${cart.map(item => `
-              <div class="cart-item">
-                <div class="cart-item-top">
-                  <div>
-                    <div class="cart-item-name">${item.name}</div>
-                    <div class="cart-item-small">${item.grind}</div>
-                    <div class="cart-item-small">
-                      ${item.kg === 0.25 ? "250 g" : "1 kg"} · ${money(item.subtotal)}
-                    </div>
-                  </div>
-
-                  <button class="tiny-btn remove-item" data-id="${item.id}">
-                    Quitar
-                  </button>
-                </div>
-
-                <div class="cart-item-bottom">
-                  <label class="field" style="flex:1;">
-                    <span>Cantidad</span>
-                    <select class="select-dark cart-qty" data-id="${item.id}">
-                      ${qtyOptions.map(option => `<option value="${option}" ${Number(option) === Number(item.kg) ? "selected" : ""}>${option === 0.25 ? "250 g" : "1 kg"}</option>`).join("")}
-                    </select>
-                  </label>
-
-                  <div class="subtotal-right">
-                    <div class="subtotal-label">Subtotal</div>
-                    <div class="subtotal-value">${money(item.subtotal)}</div>
-                  </div>
+  if (!cart.length) {
+    cartContent.innerHTML = `<div class="cart-empty">Aún no agregas café al carrito.</div>`;
+  } else {
+    cartContent.innerHTML = `
+      <div class="cart-items">
+        ${cart.map(item => `
+          <div class="cart-item">
+            <div class="cart-item-top">
+              <div>
+                <div class="cart-item-name">${item.name}</div>
+                <div class="cart-item-small">${item.grind}</div>
+                <div class="cart-item-small">
+                  ${item.bags} bolsa${item.bags > 1 ? "s" : ""} de ${formatLabel(item.format)}
                 </div>
               </div>
-            `).join("")}
+
+              <button class="tiny-btn remove-item" data-id="${item.id}">
+                Quitar
+              </button>
+            </div>
+
+            <div class="cart-item-bottom" style="align-items:stretch;flex-wrap:wrap;">
+              <label class="field" style="flex:1;min-width:140px;">
+                <span>Formato</span>
+                <select class="select-dark cart-format" data-id="${item.id}">
+                  ${formatOptions.map(option => `
+                    <option value="${option}" ${Number(option) === Number(item.format) ? "selected" : ""}>
+                      ${formatLabel(option)}
+                    </option>
+                  `).join("")}
+                </select>
+              </label>
+
+              <label class="field" style="flex:1;min-width:160px;">
+                <span>Cantidad</span>
+                <select class="select-dark cart-bags" data-id="${item.id}">
+                  ${bagCountOptions.map(option => `
+                    <option value="${option}" ${Number(option) === Number(item.bags) ? "selected" : ""}>
+                      ${option} bolsa${option > 1 ? "s" : ""}
+                    </option>
+                  `).join("")}
+                </select>
+              </label>
+
+              <div class="subtotal-right">
+                <div class="subtotal-label">Subtotal</div>
+                <div class="subtotal-value">${money(item.subtotal)}</div>
+              </div>
+            </div>
           </div>
-        `;
-      }
+        `).join("")}
+      </div>
+    `;
+  }
 
-      const total = cart.reduce((acc, item) => acc + item.subtotal, 0);
-      cartTotal.textContent = money(total);
-      summaryCartTotal.textContent = money(total);
+  const total = cart.reduce((acc, item) => acc + item.subtotal, 0);
+  cartTotal.textContent = money(total);
+  summaryCartTotal.textContent = money(total);
 
-      if (cart.length) {
-        waLink.classList.remove("disabled");
-        waLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsappText()}`;
-        waLink.target = "_blank";
-        waLink.rel = "noreferrer";
-      } else {
-        waLink.classList.add("disabled");
-        waLink.href = "#productos";
-      }
+  if (cart.length) {
+    waLink.classList.remove("disabled");
+    waLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsappText()}`;
+    waLink.target = "_blank";
+    waLink.rel = "noreferrer";
+  } else {
+    waLink.classList.add("disabled");
+    waLink.href = "#productos";
+  }
 
-      document.querySelectorAll(".remove-item").forEach(button => {
-        button.addEventListener("click", () => {
-          cart = cart.filter(item => item.id !== button.dataset.id);
-          saveCart();
-          renderCart();
-        });
+  document.querySelectorAll(".remove-item").forEach(button => {
+    button.addEventListener("click", () => {
+      cart = cart.filter(item => item.id !== button.dataset.id);
+      saveCart();
+      renderCart();
+    });
+  });
+
+  document.querySelectorAll(".cart-format, .cart-bags").forEach(control => {
+    control.addEventListener("change", () => {
+      cart = cart.map(item => {
+        if (item.id === control.dataset.id) {
+          const formatSelect = document.querySelector(`.cart-format[data-id="${item.id}"]`);
+          const bagsSelect = document.querySelector(`.cart-bags[data-id="${item.id}"]`);
+          const nextFormat = Number(formatSelect.value);
+          const nextBags = Number(bagsSelect.value);
+
+          const unit = nextFormat === 0.25 ? item.price250g : item.price1kg;
+
+          return {
+            ...item,
+            format: nextFormat,
+            bags: nextBags,
+            subtotal: unit * nextBags
+          };
+        }
+        return item;
       });
 
-      document.querySelectorAll(".cart-qty").forEach(select => {
-        select.addEventListener("change", () => {
-          cart = cart.map(item => {
-            if (item.id === select.dataset.id) {
-              const nextKg = Number(select.value);
-              const subtotal = nextKg === 0.25 ? item.price250g : item.price1kg;
-
-              return {
-                ...item,
-                  kg: nextKg,
-                  subtotal
-                        };
-                        }
-              return item;
-            });
-
-          saveCart();
-          renderCart();
-        });
-      });
-    }
+      saveCart();
+      renderCart();
+    });
+  });
+}
 
     document.getElementById("openCart").addEventListener("click", openCart);
     document.getElementById("openCartBottom").addEventListener("click", openCart);
