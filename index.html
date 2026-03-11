@@ -1841,25 +1841,17 @@
 
     function buildWhatsappText() {
       const lines = [
-        "Hola, quiero hacer un pedido en Distribuidora Vuelo.",
-        "",
-        "Detalle del pedido:",
-        ...cart.map((item, index) =>
-          `${index + 1}. ${item.name} | ${item.bags} bolsa${item.bags > 1 ? "s" : ""} de ${formatLabel(item.format)} | Molienda: ${item.grind} | Subtotal: ${money(item.subtotal)}`
-        ),
-        "",
-        `Total: ${money(cart.reduce((acc, item) => acc + item.subtotal, 0))}`,
-        "",
-        "Datos de contacto:",
-        `Nombre: ${customer.name || "No indicado"}`,
-        `Comuna / sector: ${customer.commune || "No indicado"}`,
-        `Teléfono de respaldo: ${customer.phone || "No indicado"}`,
-        `Notas: ${customer.notes || "Sin notas"}`,
-        "",
-        "Entiendo que el despacho es gratis en Valparaíso y Viña del Mar.",
-        "También quiero participar en el sorteo del mes de la máquina de espresso Oster PrimaLatte."
-      ];
-
+  "Hola, quiero hacer un pedido:",
+  "",
+  ...cart.map(item =>
+    `${item.name} - ${item.grind} - ${formatLabel(item.format)} - ${item.bags} bolsa${item.bags > 1 ? "s" : ""}`
+  ),
+  "",
+  `Total: ${money(cart.reduce((acc, item) => acc + item.subtotal, 0))}`,
+  "",
+  `Nombre: ${customer.name || "No indicado"}`,
+  `Comuna: ${customer.commune || "No indicado"}`
+];
       return encodeURIComponent(lines.join("\\n"));
     }
 
