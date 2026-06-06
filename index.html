@@ -5,13 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Distribuidora Vuelo — Café de Especialidad en Valparaíso</title>
   <meta name="description" content="Café de especialidad de Quinientos Cuatro Coffee Roasters. 6 orígenes desde $32.000/kg. Despacho gratis en Valparaíso y Viña del Mar." />
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/img/favicon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Distribuidora Vuelo — Café de Especialidad en Valparaíso" />
+  <meta property="og:description" content="Café de especialidad de Quinientos Cuatro Coffee Roasters. 6 orígenes desde $32.000/kg. Despacho gratis en Valparaíso y Viña del Mar." />
+  <meta property="og:image" content="https://www.vuelodistribuidora.cl/assets/img/hero.jpg" />
+  <meta property="og:url" content="https://www.vuelodistribuidora.cl/" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260605" />
+  <link rel="stylesheet" href="styles.css?v=20260605b" />
   <script defer src="lib/gsap.min.js"></script>
   <script defer src="lib/ScrollTrigger.min.js"></script>
-  <script defer src="main.js?v=20260605"></script>
+  <script defer src="main.js?v=20260605b"></script>
 </head>
 <body>
 
@@ -30,6 +38,10 @@
       <p>Compra tu café de especialidad y entra automáticamente al sorteo.</p>
     </div>
     <div class="modal-body">
+      <div class="modal-prize">
+        <span class="modal-prize-tag">Premio del mes</span>
+        <img src="assets/img/cafetera.jpg" alt="Cafetera Oster PrimaLatte" width="820" height="913" />
+      </div>
       <div class="modal-chips">
         <div class="modal-chip">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
@@ -100,11 +112,13 @@
 <!-- Nav -->
 <nav id="main-nav" aria-label="Navegación principal">
   <a href="#inicio" class="nav-brand">
+    <span class="brand-logo"><img src="assets/img/logo.jpg" alt="Distribuidora Vuelo" width="360" height="269" /></span>
     <span class="brand-v">V</span><span class="brand-rest">uelo</span>
     <span class="brand-sub">Distribuidora</span>
   </a>
   <div class="nav-links">
     <a href="#productos">Cafés</a>
+    <a href="#origen">Origen</a>
     <a href="#como-funciona">Cómo comprar</a>
     <a href="#contacto">Contacto</a>
     <a href="https://www.instagram.com/vuelo.distribuidora/" target="_blank" rel="noreferrer" class="nav-ig">
@@ -123,7 +137,7 @@
   <!-- Hero -->
   <section id="inicio" class="hero">
     <div class="hero-bg">
-      <img class="hero-bg-img" src="assets/img/hero.jpg" alt="Café de especialidad" />
+      <img class="hero-bg-img" src="assets/img/hero.jpg?v=20260605b" alt="Taza de café de especialidad junto a un saco de granos tostados" />
     </div>
     <div class="hero-tint"></div>
     <div class="hero-mesh"></div>
@@ -201,27 +215,19 @@
       <div class="products-grid">
 
         <article class="product-card reveal" data-product-id="brasil" data-name="Brasil" data-price="32000" data-delay="0">
-          <div class="card-top" style="background-color:#4D98A3">
+          <div class="card-label" style="--accent:#4D98A3">
             <span class="card-badge">Equilibrado</span>
-            <h3>Brasil</h3>
-            <p class="card-notes">Chocolate · Caramelo · Almendra</p>
+            <img src="assets/labels/brasil.webp" alt="Etiqueta de café Brasil — Quinientos Cuatro Coffee Roasters" loading="lazy" width="800" height="1039" />
           </div>
           <div class="card-body">
-            <dl class="card-meta">
-              <div><dt>Región</dt><dd>Sur de Minas Gerais</dd></div>
-              <div><dt>Proceso</dt><dd>Natural</dd></div>
-              <div><dt>Altura</dt><dd>1.200 msnm</dd></div>
-            </dl>
-            <p class="card-variety"><span>Variedad</span> Bourbon Amarillo, Mundo Novo</p>
+            <div class="card-headline">
+              <h3>Brasil</h3>
+              <span class="card-perkg">$32.000<small>/kg</small></span>
+            </div>
+            <p class="card-notes">Chocolate · Caramelo · Almendra</p>
             <div class="card-controls">
-              <label class="ctrl-label">
-                <span>Molienda</span>
-                <select class="grind-select"><option>Grano entero</option><option>Francesa</option><option>Italiana</option><option>Espresso</option><option>Goteo</option></select>
-              </label>
-              <label class="ctrl-label">
-                <span>Cantidad</span>
-                <select class="qty-select"><option value="0.25">0.25 kg</option><option value="0.5">0.5 kg</option><option value="0.75">0.75 kg</option><option value="1" selected>1 kg</option><option value="1.5">1.5 kg</option><option value="2">2 kg</option><option value="3">3 kg</option></select>
-              </label>
+              <label class="ctrl-label"><span>Molienda</span><select class="grind-select"><option>Grano entero</option><option>Francesa</option><option>Italiana</option><option>Espresso</option><option>Goteo</option></select></label>
+              <label class="ctrl-label"><span>Cantidad</span><select class="qty-select"><option value="0.25">0.25 kg</option><option value="0.5">0.5 kg</option><option value="0.75">0.75 kg</option><option value="1" selected>1 kg</option><option value="1.5">1.5 kg</option><option value="2">2 kg</option><option value="3">3 kg</option></select></label>
             </div>
             <div class="card-footer">
               <div class="card-subtotal"><span>Subtotal</span><strong class="subtotal-value">$32.000</strong></div>
@@ -231,18 +237,16 @@
         </article>
 
         <article class="product-card reveal" data-product-id="bolivia" data-name="Bolivia" data-price="32000" data-delay="80">
-          <div class="card-top" style="background-color:#C49B3C">
+          <div class="card-label" style="--accent:#C49B3C">
             <span class="card-badge">Dulce cítrico</span>
-            <h3>Bolivia</h3>
-            <p class="card-notes">Cacao · Limón · Avellana</p>
+            <img src="assets/labels/bolivia.webp" alt="Etiqueta de café Bolivia — Quinientos Cuatro Coffee Roasters" loading="lazy" width="800" height="1039" />
           </div>
           <div class="card-body">
-            <dl class="card-meta">
-              <div><dt>Región</dt><dd>Caranavi</dd></div>
-              <div><dt>Proceso</dt><dd>Lavado</dd></div>
-              <div><dt>Altura</dt><dd>1.600 msnm</dd></div>
-            </dl>
-            <p class="card-variety"><span>Variedad</span> Catuai, Typica, Caturra</p>
+            <div class="card-headline">
+              <h3>Bolivia</h3>
+              <span class="card-perkg">$32.000<small>/kg</small></span>
+            </div>
+            <p class="card-notes">Cacao · Limón · Avellana</p>
             <div class="card-controls">
               <label class="ctrl-label"><span>Molienda</span><select class="grind-select"><option>Grano entero</option><option>Francesa</option><option>Italiana</option><option>Espresso</option><option>Goteo</option></select></label>
               <label class="ctrl-label"><span>Cantidad</span><select class="qty-select"><option value="0.25">0.25 kg</option><option value="0.5">0.5 kg</option><option value="0.75">0.75 kg</option><option value="1" selected>1 kg</option><option value="1.5">1.5 kg</option><option value="2">2 kg</option><option value="3">3 kg</option></select></label>
@@ -255,18 +259,16 @@
         </article>
 
         <article class="product-card reveal" data-product-id="colombia" data-name="Colombia" data-price="32000" data-delay="160">
-          <div class="card-top" style="background-color:#8B9E50">
+          <div class="card-label" style="--accent:#8B9E50">
             <span class="card-badge">Clásico goloso</span>
-            <h3>Colombia</h3>
-            <p class="card-notes">Manjar · Toffee · Frutos Secos</p>
+            <img src="assets/labels/colombia.webp" alt="Etiqueta de café Colombia — Quinientos Cuatro Coffee Roasters" loading="lazy" width="800" height="1039" />
           </div>
           <div class="card-body">
-            <dl class="card-meta">
-              <div><dt>Región</dt><dd>Caldas</dd></div>
-              <div><dt>Proceso</dt><dd>Lavado</dd></div>
-              <div><dt>Altura</dt><dd>1.700 msnm</dd></div>
-            </dl>
-            <p class="card-variety"><span>Variedad</span> Castillo, Caturra</p>
+            <div class="card-headline">
+              <h3>Colombia</h3>
+              <span class="card-perkg">$32.000<small>/kg</small></span>
+            </div>
+            <p class="card-notes">Manjar · Toffee · Frutos Secos</p>
             <div class="card-controls">
               <label class="ctrl-label"><span>Molienda</span><select class="grind-select"><option>Grano entero</option><option>Francesa</option><option>Italiana</option><option>Espresso</option><option>Goteo</option></select></label>
               <label class="ctrl-label"><span>Cantidad</span><select class="qty-select"><option value="0.25">0.25 kg</option><option value="0.5">0.5 kg</option><option value="0.75">0.75 kg</option><option value="1" selected>1 kg</option><option value="1.5">1.5 kg</option><option value="2">2 kg</option><option value="3">3 kg</option></select></label>
@@ -279,18 +281,16 @@
         </article>
 
         <article class="product-card reveal" data-product-id="honduras" data-name="Honduras" data-price="32000" data-delay="0">
-          <div class="card-top" style="background-color:#2E9CC4">
+          <div class="card-label" style="--accent:#2E9CC4">
             <span class="card-badge">Suave frutal</span>
-            <h3>Honduras</h3>
-            <p class="card-notes">Cacao · Durazno · Caramelo</p>
+            <img src="assets/labels/honduras.webp" alt="Etiqueta de café Honduras — Quinientos Cuatro Coffee Roasters" loading="lazy" width="800" height="1039" />
           </div>
           <div class="card-body">
-            <dl class="card-meta">
-              <div><dt>Región</dt><dd>Jesús de Otoro, Intibucá</dd></div>
-              <div><dt>Proceso</dt><dd>Lavado</dd></div>
-              <div><dt>Altura</dt><dd>1.600 msnm</dd></div>
-            </dl>
-            <p class="card-variety"><span>Variedad</span> Parainema</p>
+            <div class="card-headline">
+              <h3>Honduras</h3>
+              <span class="card-perkg">$32.000<small>/kg</small></span>
+            </div>
+            <p class="card-notes">Cacao · Durazno · Caramelo</p>
             <div class="card-controls">
               <label class="ctrl-label"><span>Molienda</span><select class="grind-select"><option>Grano entero</option><option>Francesa</option><option>Italiana</option><option>Espresso</option><option>Goteo</option></select></label>
               <label class="ctrl-label"><span>Cantidad</span><select class="qty-select"><option value="0.25">0.25 kg</option><option value="0.5">0.5 kg</option><option value="0.75">0.75 kg</option><option value="1" selected>1 kg</option><option value="1.5">1.5 kg</option><option value="2">2 kg</option><option value="3">3 kg</option></select></label>
@@ -303,18 +303,16 @@
         </article>
 
         <article class="product-card reveal" data-product-id="ruanda" data-name="Ruanda" data-price="44000" data-delay="80">
-          <div class="card-top" style="background-color:#D4720A">
+          <div class="card-label" style="--accent:#D4720A">
             <span class="card-badge">Alta complejidad</span>
-            <h3>Ruanda</h3>
-            <p class="card-notes">Durazno · Hibiscus · Pomelo</p>
+            <img src="assets/labels/ruanda.webp" alt="Etiqueta de café Ruanda — Quinientos Cuatro Coffee Roasters" loading="lazy" width="800" height="1039" />
           </div>
           <div class="card-body">
-            <dl class="card-meta">
-              <div><dt>Región</dt><dd>Gaseke, Rusizi</dd></div>
-              <div><dt>Proceso</dt><dd>Lavado</dd></div>
-              <div><dt>Altura</dt><dd>2.100 msnm</dd></div>
-            </dl>
-            <p class="card-variety"><span>Variedad</span> Bourbon Rojo</p>
+            <div class="card-headline">
+              <h3>Ruanda</h3>
+              <span class="card-perkg">$44.000<small>/kg</small></span>
+            </div>
+            <p class="card-notes">Durazno · Hibiscus · Pomelo</p>
             <div class="card-controls">
               <label class="ctrl-label"><span>Molienda</span><select class="grind-select"><option>Grano entero</option><option>Francesa</option><option>Italiana</option><option>Espresso</option><option>Goteo</option></select></label>
               <label class="ctrl-label"><span>Cantidad</span><select class="qty-select"><option value="0.25">0.25 kg</option><option value="0.5">0.5 kg</option><option value="0.75">0.75 kg</option><option value="1" selected>1 kg</option><option value="1.5">1.5 kg</option><option value="2">2 kg</option><option value="3">3 kg</option></select></label>
@@ -327,18 +325,16 @@
         </article>
 
         <article class="product-card reveal" data-product-id="etiopia" data-name="Etiopía" data-price="44000" data-delay="160">
-          <div class="card-top" style="background-color:#3A9E28">
+          <div class="card-label" style="--accent:#3A9E28">
             <span class="card-badge">Exótico</span>
-            <h3>Etiopía</h3>
-            <p class="card-notes">Pimienta · Chocolate Amargo · Uva Morada</p>
+            <img src="assets/labels/etiopia.webp" alt="Etiqueta de café Etiopía — Quinientos Cuatro Coffee Roasters" loading="lazy" width="800" height="1039" />
           </div>
           <div class="card-body">
-            <dl class="card-meta">
-              <div><dt>Región</dt><dd>Oromia</dd></div>
-              <div><dt>Proceso</dt><dd>Lavado</dd></div>
-              <div><dt>Altura</dt><dd>1.800 msnm</dd></div>
-            </dl>
-            <p class="card-variety"><span>Variedad</span> Jarc</p>
+            <div class="card-headline">
+              <h3>Etiopía</h3>
+              <span class="card-perkg">$44.000<small>/kg</small></span>
+            </div>
+            <p class="card-notes">Pimienta · Chocolate Amargo · Uva Morada</p>
             <div class="card-controls">
               <label class="ctrl-label"><span>Molienda</span><select class="grind-select"><option>Grano entero</option><option>Francesa</option><option>Italiana</option><option>Espresso</option><option>Goteo</option></select></label>
               <label class="ctrl-label"><span>Cantidad</span><select class="qty-select"><option value="0.25">0.25 kg</option><option value="0.5">0.5 kg</option><option value="0.75">0.75 kg</option><option value="1" selected>1 kg</option><option value="1.5">1.5 kg</option><option value="2">2 kg</option><option value="3">3 kg</option></select></label>
@@ -381,10 +377,35 @@
     </div>
   </section>
 
+  <!-- Origen -->
+  <section id="origen" class="origin-band">
+    <div class="origin-bg"><img src="assets/img/origin-beans.jpg" alt="Granos de café de especialidad recién tostados junto a un saco de yute" loading="lazy" /></div>
+    <div class="origin-veil"></div>
+    <div class="container">
+      <div class="origin-card reveal">
+        <p class="section-kicker light">El origen</p>
+        <h2 class="section-title light">Tostado por Quinientos Cuatro Coffee Roasters</h2>
+        <p>Trabajamos con granos de especialidad seleccionados por origen y tostados en lotes pequeños. Cada café conserva el carácter de su región: la altura, el proceso y la variedad que puedes leer en su etiqueta.</p>
+        <div class="origin-points">
+          <div class="origin-point">
+            <strong>6 orígenes</strong>
+            <span>Brasil, Bolivia, Colombia, Honduras, Ruanda y Etiopía</span>
+          </div>
+          <div class="origin-point">
+            <strong>Molienda a pedido</strong>
+            <span>Grano entero o molido para tu método de preparación</span>
+          </div>
+        </div>
+        <a href="#productos" class="btn btn-amber">Ver catálogo</a>
+      </div>
+    </div>
+  </section>
+
   <!-- Sorteo Banner -->
   <section class="promo-strip">
     <div class="container">
       <div class="promo-inner reveal">
+        <div class="promo-media"><img src="assets/img/cafetera.jpg" alt="Cafetera Oster PrimaLatte" width="820" height="913" /></div>
         <div class="promo-text">
           <span class="promo-label">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
@@ -450,11 +471,13 @@
   <div class="container">
     <div class="footer-inner">
       <div class="footer-brand">
+        <span class="brand-logo"><img src="assets/img/logo.jpg" alt="Distribuidora Vuelo" width="360" height="269" /></span>
         <span class="brand-v">V</span><span class="brand-rest">uelo</span>
         <p>Distribuidora de café de especialidad</p>
       </div>
       <div class="footer-links">
         <a href="#productos">Cafés</a>
+        <a href="#origen">Origen</a>
         <a href="#como-funciona">Cómo comprar</a>
         <a href="https://wa.me/56954177638" target="_blank" rel="noreferrer">WhatsApp</a>
         <a href="https://www.instagram.com/vuelo.distribuidora/" target="_blank" rel="noreferrer">Instagram</a>
