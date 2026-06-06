@@ -2,7 +2,6 @@
   "use strict";
 
   var WA = "56954177638";
-  var QTY = [0.25, 0.5, 0.75, 1, 1.5, 2, 3];
   var cart = [];
   var customer = { name: "", commune: "", phone: "", notes: "" };
 
@@ -31,9 +30,11 @@
   /* --- Cart ops (immutable) --- */
   function addItem(item) { cart = cart.concat([item]); save(); render(); openCart(); }
   function removeItem(id) { cart = cart.filter(function(i) { return i.id !== id; }); save(); render(); }
-  function updateQty(id, kg) {
+  function updateQty(id, grams) {
     cart = cart.map(function(i) {
-      return i.id === id ? Object.assign({}, i, { kg: kg, subtotal: Math.round(i.pricePerKg * kg) }) : i;
+      if (i.id !== id) return i;
+      var price = grams === 250 ? i.price250 : i.price1000;
+      return Object.assign({}, i, { grams: grams, price: price, subtotal: price });
     });
     save(); render();
   }
@@ -46,7 +47,8 @@
       "",
       "Detalle del pedido:"
     ].concat(cart.map(function(item, idx) {
-      return (idx + 1) + ". " + item.name + " | " + item.kg + " kg | " + item.grind + " | " + fmt(item.subtotal);
+      var fmtLabel = item.grams === 250 ? '250 g' : '1 kg';
+      return (idx + 1) + ". " + item.name + " | " + fmtLabel + " | " + item.grind + " | " + fmt(item.subtotal);
     })).concat([
       "",
       "Total: " + fmt(total),
@@ -100,15 +102,19 @@
     }
 
     list.innerHTML = cart.map(function(item) {
-      var opts = QTY.map(function(v) {
-        return '<option value="' + v + '"' + (item.kg === v ? ' selected' : '') + '>' + v + ' kg</option>';
+      var fmtLabel = item.grams === 250 ? '250 g' : '1 kg';
+      var opts = [
+        { g: 250, price: item.price250, label: '250 g' },
+        { g: 1000, price: item.price1000, label: '1 kg' }
+      ].map(function(opt) {
+        return '<option value="' + opt.g + '"' + (item.grams === opt.g ? ' selected' : '') + '>' + opt.label + ' — ' + fmt(opt.price) + '</option>';
       }).join("");
       return '<div class="cart-item" data-id="' + item.id + '">' +
         '<div class="ci-top">' +
           '<div class="ci-info">' +
             '<strong>' + item.name + '</strong>' +
             '<span>' + item.grind + '</span>' +
-            '<span class="ci-unit">' + fmt(item.pricePerKg) + ' / kg</span>' +
+            '<span class="ci-unit">' + fmtLabel + ' · ' + fmt(item.price) + '</span>' +
           '</div>' +
           '<button class="ci-remove" data-id="' + item.id + '" aria-label="Quitar">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
@@ -194,22 +200,27 @@
 
   function initCards() {
     document.querySelectorAll(".product-card").forEach(function(card) {
-      var price = parseInt(card.dataset.price, 10);
+      var price250 = parseInt(card.dataset.price250, 10);
+      var price1000 = parseInt(card.dataset.price1000, 10);
       var qtySelect = card.querySelector(".qty-select");
       var subtotalEl = card.querySelector(".subtotal-value");
       var addBtn = card.querySelector(".add-btn");
       if (!qtySelect || !subtotalEl || !addBtn) return;
 
+      function currentPrice() {
+        return parseInt(qtySelect.value, 10) === 250 ? price250 : price1000;
+      }
       function updateSub() {
-        subtotalEl.textContent = fmt(Math.round(price * parseFloat(qtySelect.value)));
+        subtotalEl.textContent = fmt(currentPrice());
       }
       qtySelect.addEventListener("change", updateSub);
       updateSub();
 
       addBtn.addEventListener("click", function() {
         var grind = card.querySelector(".grind-select").value;
-        var kg = parseFloat(qtySelect.value);
-        addItem({ id: uid(), productId: card.dataset.productId, name: card.dataset.name, pricePerKg: price, grind: grind, kg: kg, subtotal: Math.round(price * kg) });
+        var grams = parseInt(qtySelect.value, 10);
+        var price = currentPrice();
+        addItem({ id: uid(), productId: card.dataset.productId, name: card.dataset.name, price250: price250, price1000: price1000, price: price, grind: grind, grams: grams, subtotal: price });
       });
     });
   }
