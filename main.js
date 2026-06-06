@@ -13,12 +13,23 @@
   function safe(fn, name) { try { fn(); } catch (e) { console.warn("[" + name + "]", e); } }
   function $(id) { return document.getElementById(id); }
 
+  function bagsOpts(selected) {
+    var opts = "";
+    for (var i = 1; i <= 10; i++) {
+      opts += '<option value="' + i + '"' + (i === selected ? ' selected' : '') + '>' + i + (i === 1 ? ' bolsa' : ' bolsas') + '</option>';
+    }
+    return opts;
+  }
+
   /* --- Storage --- */
   function load() {
     try {
       var c = localStorage.getItem("vuelo-cart");
       var cu = localStorage.getItem("vuelo-customer");
-      if (c) cart = JSON.parse(c);
+      if (c) {
+        var parsed = JSON.parse(c);
+        cart = parsed.filter(function(i) { return i.price250 && i.bags; });
+      }
       if (cu) customer = Object.assign({ name: "", commune: "", phone: "", notes: "" }, JSON.parse(cu));
     } catch (e) {}
   }
@@ -30,11 +41,20 @@
   /* --- Cart ops (immutable) --- */
   function addItem(item) { cart = cart.concat([item]); save(); render(); openCart(); }
   function removeItem(id) { cart = cart.filter(function(i) { return i.id !== id; }); save(); render(); }
-  function updateQty(id, grams) {
+
+  function updateFormat(id, grams) {
     cart = cart.map(function(i) {
       if (i.id !== id) return i;
       var price = grams === 250 ? i.price250 : i.price1000;
-      return Object.assign({}, i, { grams: grams, price: price, subtotal: price });
+      return Object.assign({}, i, { grams: grams, price: price, subtotal: price * i.bags });
+    });
+    save(); render();
+  }
+
+  function updateBags(id, bags) {
+    cart = cart.map(function(i) {
+      if (i.id !== id) return i;
+      return Object.assign({}, i, { bags: bags, subtotal: i.price * bags });
     });
     save(); render();
   }
@@ -48,7 +68,8 @@
       "Detalle del pedido:"
     ].concat(cart.map(function(item, idx) {
       var fmtLabel = item.grams === 250 ? '250 g' : '1 kg';
-      return (idx + 1) + ". " + item.name + " | " + fmtLabel + " | " + item.grind + " | " + fmt(item.subtotal);
+      var bolsas = item.bags === 1 ? '1 bolsa' : item.bags + ' bolsas';
+      return (idx + 1) + ". " + item.name + " | " + fmtLabel + " × " + bolsas + " | " + item.grind + " | " + fmt(item.subtotal);
     })).concat([
       "",
       "Total: " + fmt(total),
@@ -59,7 +80,7 @@
       "Teléfono: " + (customer.phone || "No indicado"),
       "Notas: " + (customer.notes || "Sin notas"),
       "",
-      "Entiendo que el despacho es gratis en Valparaíso y Viña del Mar.",
+      "Entiendo que el despacho es gratis en Valparaíso, Viña del Mar, Reñaca, Con Con, Quilpué y Villa Alemana.",
       "Quiero participar en el sorteo de la Oster PrimaLatte."
     ]);
     return "https://wa.me/" + WA + "?text=" + encodeURIComponent(lines.join("\n"));
@@ -102,26 +123,26 @@
     }
 
     list.innerHTML = cart.map(function(item) {
-      var fmtLabel = item.grams === 250 ? '250 g' : '1 kg';
-      var opts = [
+      var formatOpts = [
         { g: 250, price: item.price250, label: '250 g' },
         { g: 1000, price: item.price1000, label: '1 kg' }
       ].map(function(opt) {
         return '<option value="' + opt.g + '"' + (item.grams === opt.g ? ' selected' : '') + '>' + opt.label + ' — ' + fmt(opt.price) + '</option>';
       }).join("");
+
       return '<div class="cart-item" data-id="' + item.id + '">' +
         '<div class="ci-top">' +
           '<div class="ci-info">' +
             '<strong>' + item.name + '</strong>' +
             '<span>' + item.grind + '</span>' +
-            '<span class="ci-unit">' + fmtLabel + ' · ' + fmt(item.price) + '</span>' +
           '</div>' +
           '<button class="ci-remove" data-id="' + item.id + '" aria-label="Quitar">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
           '</button>' +
         '</div>' +
         '<div class="ci-bottom">' +
-          '<select class="ci-qty" data-id="' + item.id + '">' + opts + '</select>' +
+          '<select class="ci-format" data-id="' + item.id + '">' + formatOpts + '</select>' +
+          '<select class="ci-bags" data-id="' + item.id + '">' + bagsOpts(item.bags) + '</select>' +
           '<span class="ci-subtotal">' + fmt(item.subtotal) + '</span>' +
         '</div>' +
       '</div>';
@@ -130,8 +151,11 @@
     list.querySelectorAll(".ci-remove").forEach(function(btn) {
       btn.addEventListener("click", function() { removeItem(btn.dataset.id); });
     });
-    list.querySelectorAll(".ci-qty").forEach(function(sel) {
-      sel.addEventListener("change", function() { updateQty(sel.dataset.id, parseFloat(sel.value)); });
+    list.querySelectorAll(".ci-format").forEach(function(sel) {
+      sel.addEventListener("change", function() { updateFormat(sel.dataset.id, parseInt(sel.value, 10)); });
+    });
+    list.querySelectorAll(".ci-bags").forEach(function(sel) {
+      sel.addEventListener("change", function() { updateBags(sel.dataset.id, parseInt(sel.value, 10)); });
     });
   }
 
@@ -203,6 +227,7 @@
       var price250 = parseInt(card.dataset.price250, 10);
       var price1000 = parseInt(card.dataset.price1000, 10);
       var qtySelect = card.querySelector(".qty-select");
+      var bagsSelect = card.querySelector(".bags-select");
       var subtotalEl = card.querySelector(".subtotal-value");
       var addBtn = card.querySelector(".add-btn");
       if (!qtySelect || !subtotalEl || !addBtn) return;
@@ -210,17 +235,33 @@
       function currentPrice() {
         return parseInt(qtySelect.value, 10) === 250 ? price250 : price1000;
       }
+      function currentBags() {
+        return bagsSelect ? parseInt(bagsSelect.value, 10) : 1;
+      }
       function updateSub() {
-        subtotalEl.textContent = fmt(currentPrice());
+        subtotalEl.textContent = fmt(currentPrice() * currentBags());
       }
       qtySelect.addEventListener("change", updateSub);
+      if (bagsSelect) bagsSelect.addEventListener("change", updateSub);
       updateSub();
 
       addBtn.addEventListener("click", function() {
         var grind = card.querySelector(".grind-select").value;
         var grams = parseInt(qtySelect.value, 10);
+        var bags = currentBags();
         var price = currentPrice();
-        addItem({ id: uid(), productId: card.dataset.productId, name: card.dataset.name, price250: price250, price1000: price1000, price: price, grind: grind, grams: grams, subtotal: price });
+        addItem({
+          id: uid(),
+          productId: card.dataset.productId,
+          name: card.dataset.name,
+          price250: price250,
+          price1000: price1000,
+          price: price,
+          grind: grind,
+          grams: grams,
+          bags: bags,
+          subtotal: price * bags
+        });
       });
     });
   }
