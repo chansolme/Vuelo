@@ -2,3 +2,6 @@
 serve.pl
 assets/credits.json
 assets/source/
+.env
+.env.local
+node_modules/
