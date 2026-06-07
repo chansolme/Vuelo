@@ -14,6 +14,7 @@ function bankDetailsText(orderId, totalFmt) {
     `🏦 *Datos de transferencia*`,
     ``,
     `Banco: ${process.env.BANK_NAME}`,
+    `Tipo de cuenta: ${process.env.BANK_ACCOUNT_TYPE}`,
     `N° cuenta: ${process.env.BANK_ACCOUNT}`,
     `RUT: ${process.env.BANK_RUT}`,
     `Nombre: ${process.env.BANK_HOLDER}`,
